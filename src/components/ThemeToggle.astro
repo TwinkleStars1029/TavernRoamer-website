@@ -1,0 +1,72 @@
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="切換為暗色主題">
+  <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">☾</span>
+  <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">☀</span>
+</button>
+
+<script>
+  import { THEME_COLORS, nextTheme, saveTheme, toggleLabel, type Theme } from '../lib/theme';
+
+  const root = document.documentElement;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function currentTheme(): Theme {
+    return root.dataset.theme === 'dark' ? 'dark' : 'light';
+  }
+
+  function sync(theme: Theme) {
+    buttons.forEach(button => button.setAttribute('aria-label', toggleLabel(theme)));
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLORS[theme]);
+  }
+
+  function storage(): Storage | undefined {
+    try {
+      return window.localStorage;
+    } catch {
+      return undefined;
+    }
+  }
+
+  sync(currentTheme());
+
+  buttons.forEach(button =>
+    button.addEventListener('click', () => {
+      const theme = nextTheme(currentTheme());
+      if (!reduceMotion.matches) {
+        root.classList.add('theme-transition');
+        window.setTimeout(() => root.classList.remove('theme-transition'), 400);
+      }
+      root.dataset.theme = theme;
+      sync(theme);
+      saveTheme(storage(), theme);
+    }),
+  );
+</script>
+
+<style>
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  :global(:root[data-theme='dark']) .theme-toggle__icon--moon,
+  :global(:root:not([data-theme='dark'])) .theme-toggle__icon--sun {
+    display: none;
+  }
+</style>
