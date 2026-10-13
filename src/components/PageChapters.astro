@@ -24,10 +24,10 @@ const { chapters, label } = Astro.props;
 <style>
   .tutorial-layout { display:grid;grid-template-columns:205px minmax(0,1fr);gap:clamp(26px,5vw,66px);align-items:start; }
   .tutorial-toc { position:sticky;top:100px;margin-top:54px;padding:16px 0 18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:3px; }
-  .toc-title { color:var(--gold);font:10px var(--mono);letter-spacing:1.3px;margin:0 12px 10px; }
-  .tutorial-toc a { display:flex;gap:12px;align-items:baseline;color:#c5c9b9;text-decoration:none;font-size:12px;padding:10px 12px;border-left:2px solid transparent;line-height:1.5; }
-  .tutorial-toc a span { color:var(--gold);font:10px var(--mono); }
-  .tutorial-toc a:hover,.tutorial-toc a:focus-visible { color:var(--green);border-left-color:var(--green);background:#222a22; }
+  .toc-title { color:var(--accent);font:10px var(--mono);letter-spacing:1.3px;margin:0 12px 10px; }
+  .tutorial-toc a { display:flex;gap:12px;align-items:baseline;color:var(--muted);text-decoration:none;font-size:12px;padding:10px 12px;border-left:2px solid transparent;line-height:1.5; }
+  .tutorial-toc a span { color:var(--accent);font:10px var(--mono); }
+  .tutorial-toc a:hover,.tutorial-toc a:focus-visible { color:var(--accent);border-left-color:var(--accent);background:var(--surface-2); }
   .tutorial-content { min-width:0; }
   @media(max-width:1050px) {
     .tutorial-layout { grid-template-columns:1fr;gap:0; }
