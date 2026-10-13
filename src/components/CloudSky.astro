@@ -96,6 +96,7 @@ const { variant = 'full' } = Astro.props;
     background: linear-gradient(to bottom, transparent, var(--bg));
   }
 
+  /* Keep this SVG rendered (not display: none): the other SVGs reference its gradients and filters. */
   .cloud-sky__defs {
     position: absolute;
   }
@@ -122,11 +123,7 @@ const { variant = 'full' } = Astro.props;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 280px;
-  }
-
-  .cloud-sky--compact .cloud-sky__bank {
-    height: 190px;
+    height: var(--cloud-bank-h, 280px);
   }
 
   .cloud-sky__glow {
@@ -147,12 +144,5 @@ const { variant = 'full' } = Astro.props;
       display: none;
     }
 
-    .cloud-sky__bank {
-      height: 170px;
-    }
-
-    .cloud-sky--compact .cloud-sky__bank {
-      height: 130px;
-    }
   }
 </style>

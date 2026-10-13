@@ -402,12 +402,21 @@ h3 {
   z-index: 2;
 }
 
+/* --cloud-bank-h sizes the CloudSky bank; bottom padding follows it so copy stays above the pale clouds. */
 .hero {
-  padding: calc(var(--topbar-h) + 70px) 0 230px;
+  --cloud-bank-h: max(280px, 12.5vw);
+  padding: calc(var(--topbar-h) + 70px) 0 calc(var(--cloud-bank-h) - 50px);
 }
 
 .page-hero {
-  padding: calc(var(--topbar-h) + 64px) 0 150px;
+  --cloud-bank-h: max(190px, 12.5vw);
+  padding: calc(var(--topbar-h) + 64px) 0 calc(var(--cloud-bank-h) + 40px);
+}
+
+/* The hero's own fade is the divider; a border here would draw a hard line on it. */
+.hero + .section,
+.page-hero + .section {
+  border-top: 0;
 }
 
 .page-hero h1 {
@@ -818,7 +827,8 @@ summary:focus-visible {
   }
 
   .hero {
-    padding: calc(var(--topbar-h) + 48px) 0 170px;
+    --cloud-bank-h: 170px;
+    padding: calc(var(--topbar-h) + 48px) 0 var(--cloud-bank-h);
   }
 
   .hero-grid,
@@ -836,7 +846,8 @@ summary:focus-visible {
   }
 
   .page-hero {
-    padding: calc(var(--topbar-h) + 44px) 0 120px;
+    --cloud-bank-h: 130px;
+    padding: calc(var(--topbar-h) + 44px) 0 calc(var(--cloud-bank-h) + 30px);
   }
 
   .footer-inner {
