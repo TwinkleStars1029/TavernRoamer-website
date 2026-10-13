@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import CloudSky from '../components/CloudSky.astro';
 import PageChapters from '../components/PageChapters.astro';
 const base = import.meta.env.BASE_URL;
 const chapters = [
@@ -16,7 +17,8 @@ const chapters = [
 ---
 
 <SiteLayout title="使用教學" description="先看 TavernRoamer 跨裝置接續聊天的快速流程，再跟著實際面板完成連線、上傳、建立或更新聊天，以及按需備份酒館環境。" active="how-to-use">
-  <header class="page-hero tutorial-hero">
+  <header class="page-hero tutorial-hero sky-scope">
+    <CloudSky variant="compact" />
     <div class="wrap tutorial-hero-grid">
       <div>
         <div class="page-kicker">FIELD GUIDE / HOW TO USE</div>

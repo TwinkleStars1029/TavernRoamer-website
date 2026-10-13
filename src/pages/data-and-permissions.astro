@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import CloudSky from '../components/CloudSky.astro';
 const base = import.meta.env.BASE_URL;
 const driveTree = [
   'SillyTavernSync/',
@@ -18,7 +19,7 @@ const driveTree = [
 ].join('\n');
 ---
 <SiteLayout title="資料與權限" description="了解 TavernRoamer 的 Google Drive 目錄、聊天與酒館環境如何備份和讀取、版本保留、還原點與授權範圍。" active="data-and-permissions">
-  <header class="page-hero"><div class="wrap">
+  <header class="page-hero sky-scope"><CloudSky variant="compact" /><div class="wrap">
     <div class="page-kicker">FIELD NOTES / DATA & ACCESS</div>
     <h1>資料存在哪裡，<br />又怎麼讀回來？</h1>
     <p class="lead">TavernRoamer 把聊天與你選擇的酒館環境項目，存進你授權的 Google Drive。這一頁沿著檔案路徑，說明每次備份、讀取及覆蓋實際會做什麼。</p>

@@ -1,9 +1,11 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import CloudSky from '../components/CloudSky.astro';
 const base = import.meta.env.BASE_URL;
 ---
 <SiteLayout title="介面介紹" description="認識 TavernRoamer 雲端漫遊面板：連線狀態、聊天同步、酒館環境備份、設定與操作流程。" active="interface">
-  <header class="page-hero">
+  <header class="page-hero sky-scope">
+    <CloudSky variant="compact" />
     <div class="wrap">
       <div class="page-kicker">PANEL TOUR</div>
       <h1>打開面板，<br />先看懂每個區塊。</h1>

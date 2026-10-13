@@ -1,0 +1,158 @@
+---
+interface Props {
+  variant?: 'full' | 'compact';
+}
+
+const { variant = 'full' } = Astro.props;
+---
+<div class:list={['cloud-sky', `cloud-sky--${variant}`]} aria-hidden="true">
+  <svg class="cloud-sky__defs" width="0" height="0" focusable="false">
+    <defs>
+      <linearGradient id="cloud-puff" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--puff-1)" />
+        <stop offset="1" style="stop-color: var(--puff-2)" />
+      </linearGradient>
+      <linearGradient id="cloud-bank" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--bank-1)" />
+        <stop offset="0.5" style="stop-color: var(--bank-2)" />
+        <stop offset="0.8" style="stop-color: var(--bank-3)" />
+        <stop offset="1" style="stop-color: var(--bank-4)" />
+      </linearGradient>
+      <filter id="cloud-billow" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="5" seed="9" />
+        <feDisplacementMap in="SourceGraphic" scale="75" />
+        <feGaussianBlur stdDeviation="3" />
+      </filter>
+      <filter id="cloud-soft" x="-50%" y="-100%" width="200%" height="300%">
+        <feGaussianBlur stdDeviation="34" />
+      </filter>
+    </defs>
+  </svg>
+
+  <svg class="cloud-sky__stars" viewBox="300 0 500 140" preserveAspectRatio="xMaxYMin slice">
+    <g fill="#fff">
+      <circle cx="430" cy="40" r="0.9" />
+      <circle cx="540" cy="70" r="1.1" />
+      <circle cx="740" cy="34" r="0.8" />
+      <circle cx="330" cy="90" r="0.7" />
+      <circle cx="620" cy="20" r="1" />
+      <circle cx="480" cy="130" r="0.7" />
+      <circle cx="780" cy="110" r="0.9" />
+    </g>
+  </svg>
+
+  {variant === 'full' && (
+    <svg class="cloud-sky__puff" viewBox="470 30 380 180">
+      <g filter="url(#cloud-billow)" opacity="0.92" fill="url(#cloud-puff)">
+        <circle cx="600" cy="128" r="44" />
+        <circle cx="656" cy="110" r="56" />
+        <circle cx="716" cy="130" r="42" />
+        <ellipse cx="660" cy="150" rx="106" ry="26" />
+      </g>
+    </svg>
+  )}
+
+  <svg class="cloud-sky__bank" viewBox="0 250 1600 200" preserveAspectRatio="xMidYMax slice">
+    <ellipse class="cloud-sky__glow" cx="960" cy="420" rx="360" ry="100" filter="url(#cloud-soft)" />
+    <g filter="url(#cloud-billow)" fill="url(#cloud-bank)">
+      <circle cx="40" cy="410" r="80" />
+      <circle cx="160" cy="400" r="72" />
+      <circle cx="290" cy="412" r="78" />
+      <circle cx="420" cy="388" r="90" />
+      <circle cx="560" cy="374" r="100" />
+      <circle cx="700" cy="380" r="96" />
+      <circle cx="810" cy="392" r="82" />
+      <circle cx="920" cy="404" r="76" />
+      <circle cx="1050" cy="396" r="84" />
+      <circle cx="1180" cy="410" r="74" />
+      <circle cx="1300" cy="386" r="92" />
+      <circle cx="1440" cy="378" r="98" />
+      <circle cx="1560" cy="400" r="80" />
+      <circle cx="1640" cy="392" r="82" />
+    </g>
+  </svg>
+
+  <div class="cloud-sky__grain"></div>
+</div>
+
+<style>
+  .cloud-sky {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 70%, var(--sky-3) 100%);
+  }
+
+  /* Fade the bottom edge into the page so the cloud bank has no seam. */
+  .cloud-sky::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 56px;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+  }
+
+  .cloud-sky__defs {
+    position: absolute;
+  }
+
+  .cloud-sky__stars {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(70%, 900px);
+    height: 220px;
+    opacity: var(--star-opacity);
+  }
+
+  .cloud-sky__puff {
+    position: absolute;
+    top: calc(var(--topbar-h) + 10px);
+    right: -2%;
+    width: min(44vw, 540px);
+    height: auto;
+  }
+
+  .cloud-sky__bank {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 280px;
+  }
+
+  .cloud-sky--compact .cloud-sky__bank {
+    height: 190px;
+  }
+
+  .cloud-sky__glow {
+    fill: var(--glow);
+    opacity: var(--glow-opacity);
+  }
+
+  .cloud-sky__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media (max-width: 800px) {
+    .cloud-sky__puff {
+      display: none;
+    }
+
+    .cloud-sky__bank {
+      height: 170px;
+    }
+
+    .cloud-sky--compact .cloud-sky__bank {
+      height: 130px;
+    }
+  }
+</style>

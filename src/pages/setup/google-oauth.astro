@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro';
+import CloudSky from '../../components/CloudSky.astro';
 import OAuthScreenshots from '../../components/OAuthScreenshots.astro';
 import PageChapters from '../../components/PageChapters.astro';
 const chapters = [
@@ -16,7 +17,7 @@ const chapters = [
 ];
 ---
 <SiteLayout title="Google OAuth 申請與設定" description="完整建立 Google Cloud 專案、Drive API、OAuth 同意畫面與 Web Client，並以本機網址助手整理酒館 origin。" active="oauth">
-  <header class="page-hero"><div class="wrap"><div class="page-kicker">FIELD GUIDE / 02</div><h1>替你的酒館備好 Google Drive 通行證</h1><p class="lead">你在自己的 Google Cloud 專案建立 OAuth Client，TavernRoamer 以瀏覽器 token flow 取得授權。網站不登入 Google，也不接收你的 Client ID、Client Secret 或 token。</p><p class="muted" style="font-size:11px">官方文件最後核對：2026 年 9 月 28 日。Google Cloud 介面可能更新；依欄位含義辨認即可。</p></div></header>
+  <header class="page-hero sky-scope"><CloudSky variant="compact" /><div class="wrap"><div class="page-kicker">FIELD GUIDE / 02</div><h1>替你的酒館備好 Google Drive 通行證</h1><p class="lead">你在自己的 Google Cloud 專案建立 OAuth Client，TavernRoamer 以瀏覽器 token flow 取得授權。網站不登入 Google，也不接收你的 Client ID、Client Secret 或 token。</p><p class="muted" style="font-size:11px">官方文件最後核對：2026 年 9 月 28 日。Google Cloud 介面可能更新；依欄位含義辨認即可。</p></div></header>
   <PageChapters chapters={chapters} label="Google 設定章節">
   <section class="section"><div class="callout">本指南依 TavernRoamer 程式使用的 Google Identity Services token model 編寫，要求 scope 為 <span class="inline-code">https://www.googleapis.com/auth/drive.file</span>。這是瀏覽器端授權，不使用 Client Secret，也不需為目前這個流程設定 redirect URI。</div><div class="steps" style="margin-top:24px">
     <article class="step"><h3 id="oauth-project">建立或選取 Google Cloud 專案</h3><p><strong>位置：</strong><a class="text-link" href="https://console.cloud.google.com/">Google Cloud Console</a>。建立專用專案（例如 TavernRoamer personal），或選取你要使用的專案。</p><p>記得確認 Console 頂端目前選中的是正確專案。專案名稱只是方便辨識，不會影響本機操作。</p><p class="evidence">完成後：Console 顯示你選定的專案。</p><OAuthScreenshots images={[1,2]} /></article>

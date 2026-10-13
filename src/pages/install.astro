@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import CloudSky from '../components/CloudSky.astro';
 import PageChapters from '../components/PageChapters.astro';
 const base = import.meta.env.BASE_URL;
 const chapters = [
@@ -14,7 +15,7 @@ const chapters = [
 ];
 ---
 <SiteLayout title="安裝指南" description="在酒館助手的全域腳本庫加入 TavernRoamer，啟用面板、設定 Google OAuth 並完成首次備份測試。" active="install">
-  <header class="page-hero"><div class="wrap"><div class="page-kicker">FIELD GUIDE / 01</div><h1>安裝與第一次出發</h1><p class="lead">先安裝 SillyTavern 與酒館助手，再把 TavernRoamer 加入酒館助手的全域腳本庫。確認面板能開啟後，設定 Google Drive 連線。</p></div></header>
+  <header class="page-hero sky-scope"><CloudSky variant="compact" /><div class="wrap"><div class="page-kicker">FIELD GUIDE / 01</div><h1>安裝與第一次出發</h1><p class="lead">先安裝 SillyTavern 與酒館助手，再把 TavernRoamer 加入酒館助手的全域腳本庫。確認面板能開啟後，設定 Google Drive 連線。</p></div></header>
   <PageChapters chapters={chapters} label="安裝指南章節">
   <section class="section"><div class="callout"><strong>目前提供 TavernRoamer 的 main 分支腳本。</strong>下方程式碼會從公開的 jsDelivr 網址載入腳本；main 分支內容可能更新，並非固定版本。<a class="text-link" href={`${base}changelog/`}>查看版本與來源說明 →</a></div></section>
   <section class="section" id="prepare"><div class="section-heading"><div class="eyebrow">BEFORE YOU BEGIN</div><h2>出發前先準備</h2></div><div class="grid-2"><article class="card"><h3>SillyTavern</h3><p>準備可正常開啟的酒館環境；TavernRoamer 自身的相容版本仍需實際驗證。</p></article><article class="card"><h3>酒館助手（JS-Slash-Runner）</h3><p>酒館助手官方安裝文件目前要求 SillyTavern 1.13.0 以上。先依<a class="text-link" href="https://n0vi028.github.io/JS-Slash-Runner-Doc/guide/%E5%85%B3%E4%BA%8E%E9%85%92%E9%A6%86%E5%8A%A9%E6%89%8B/%E5%AE%89%E8%A3%85%E4%B8%8E%E6%9B%B4%E6%96%B0.html">官方安裝與更新說明</a>完成擴充功能安裝。</p></article><article class="card"><h3>Google 帳號</h3><p>用來建立自己的 Google Cloud 專案、OAuth Web Client，並授權腳本存取自己的 Drive 檔案。</p></article><article class="card"><h3>Google Cloud 設定權限</h3><p>需能建立專案、啟用 Drive API、設定 OAuth 同意畫面、測試使用者及來源 origin。</p><a class="text-link" href={`${base}setup/google-oauth/`}>前往 Google OAuth 設定指南 →</a></article></div></section>

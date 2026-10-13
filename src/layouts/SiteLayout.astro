@@ -60,20 +60,29 @@ const nav = [
       </div>
     </footer>
     <script>
+      const topbar = document.querySelector<HTMLElement>('.topbar');
       const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
       const nav = document.querySelector<HTMLElement>('#main-nav');
+      const updateSolid = () => {
+        const menuOpen = nav?.classList.contains('open') === true;
+        topbar?.toggleAttribute('data-solid', window.scrollY > 8 || menuOpen);
+      };
       toggle?.addEventListener('click', () => {
         const expanded = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!expanded));
         nav?.classList.toggle('open', !expanded);
+        updateSolid();
       });
       document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && nav?.classList.contains('open')) {
           nav.classList.remove('open');
           toggle?.setAttribute('aria-expanded', 'false');
           toggle?.focus();
+          updateSolid();
         }
       });
+      window.addEventListener('scroll', updateSolid, { passive: true });
+      updateSolid();
     </script>
   </body>
 </html>
