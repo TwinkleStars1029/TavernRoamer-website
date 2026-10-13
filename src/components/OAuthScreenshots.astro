@@ -1,0 +1,61 @@
+---
+interface Props {
+  images: number[];
+}
+
+const { images } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const descriptions: Record<number, string> = {
+  1: '在 Google Cloud 選擇資源視窗點選新增專案',
+  2: '填寫 Google Cloud 新增專案表單',
+  3: '從 Google Cloud 導覽選單開啟 API 程式庫',
+  4: '在 API 程式庫搜尋 Google Drive API',
+  5: '在 Google Drive API 頁面按啟用',
+  6: '在 API 詳細資料頁面點選建立憑證',
+  7: '填寫 OAuth 應用程式資訊與支援電子郵件',
+  8: '選擇 OAuth 目標對象',
+  9: '填寫開發者聯絡資訊',
+  10: '選取 Google Drive drive.file 存取範圍',
+  11: '在 Google Auth Platform 開啟資料存取權',
+  12: '在 Google Auth Platform 開啟用戶端並建立用戶端',
+  13: '選擇網頁應用程式類型並填寫 OAuth 用戶端名稱',
+  14: '填入已授權的 JavaScript 來源並儲存',
+  15: 'OAuth 用戶端建立完成的確認畫面',
+  16: '在 TavernRoamer 設定頁填入 Google Client ID 並連線',
+  17: '在 Google 登入視窗選擇帳號',
+  18: 'Google 未驗證應用程式提示畫面',
+  19: '確認 Google 帳號授權畫面',
+  20: 'TavernRoamer 顯示 Google Drive 已連線',
+};
+---
+
+<div class="oauth-shots" aria-label="操作截圖">
+  <div class="oauth-shots-heading"><span>操作截圖</span><span>{images.length} 張 · 點選圖片可放大</span></div>
+  <div class="oauth-shots-grid">
+    {images.map((number, index) => (
+      <figure class="oauth-shot">
+        <a href={`${base}images/google-oauth/${number}.png`} target="_blank" rel="noopener" aria-label={`放大查看截圖 ${number}：${descriptions[number]}`}>
+          <img src={`${base}images/google-oauth/${number}.png`} alt={descriptions[number]} loading="lazy" decoding="async" />
+        </a>
+        <figcaption><span>{String(index + 1).padStart(2, '0')}</span>{descriptions[number]}</figcaption>
+      </figure>
+    ))}
+  </div>
+</div>
+
+<style>
+  .oauth-shots { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .oauth-shots-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 13px; color: var(--cream); font-size: 13px; font-weight: 700; }
+  .oauth-shots-heading span:last-child { color: var(--muted); font-size: 11px; font-weight: 400; }
+  .oauth-shots-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+  .oauth-shot { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #465046; border-radius: 4px; background: #242b26; }
+  .oauth-shot a { display: grid; place-items: center; min-height: 180px; padding: 9px; background: #e9ebed; }
+  .oauth-shot a:hover { background: #fff; }
+  .oauth-shot a:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+  .oauth-shot img { display: block; width: 100%; height: auto; max-height: 420px; object-fit: contain; }
+  .oauth-shot figcaption { display: flex; align-items: baseline; gap: 9px; min-height: 52px; padding: 11px 12px; color: #d2d6c8; font-size: 11px; line-height: 1.55; }
+  .oauth-shot figcaption span { color: var(--gold); font: 11px var(--mono); }
+  @media (max-width: 680px) { .oauth-shots-grid { grid-template-columns: 1fr; } .oauth-shot a { min-height: 120px; } .oauth-shot img { max-height: 520px; } }
+  @media (max-width: 440px) { .oauth-shots-heading { align-items: flex-start; flex-direction: column; gap: 3px; } }
+</style>

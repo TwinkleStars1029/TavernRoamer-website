@@ -1,0 +1,23 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+const base = import.meta.env.BASE_URL;
+---
+<SiteLayout title="常見問題" description="依安裝、Google OAuth、聊天備份及環境還原症狀排解 TavernRoamer 使用問題。" active="faq">
+  <header class="page-hero"><div class="wrap"><div class="page-kicker">FIELD NOTES / FAQ</div><h1>路上遇到岔路？</h1><p class="lead">先照症狀找答案。OAuth 先核對 origin、測試帳號與 API；聊天問題先確認備份是否完成、裝置用的是不是同一 Drive 帳號。</p></div></header>
+  <section class="section"><div class="wrap"><div class="section-heading"><div class="eyebrow">INSTALLATION</div><h2>安裝與顯示</h2></div><div class="faq-list">
+    <details><summary>安裝後找不到 TavernRoamer 操作面板。</summary><p>確認 SillyTavern 已載入酒館助手，並在酒館助手的全域腳本庫中確認「TavernRoamer」腳本已儲存、啟用，內容是安裝指南中的整行 import 程式碼。重新整理酒館後，再到魔杖選單查看；若仍沒有入口，檢查瀏覽器 Console 與腳本庫的錯誤訊息。</p><a class="text-link" href={`${base}install/#import-script`}>核對腳本安裝步驟 →</a></details>
+    <details><summary>可以把 TavernRoamer 網址貼進「安裝擴充功能」嗎？</summary><p>不可以。SillyTavern 的「安裝擴充功能」用來安裝酒館助手；TavernRoamer 要在酒館助手的全域腳本庫中新增腳本，貼入安裝指南提供的 import 程式碼。腳本目前指向 main 分支，內容可能更新，尚非固定版本。</p><a class="text-link" href={`${base}install/#import-script`}>查看可複製的腳本程式碼 →</a></details>
+  </div><div class="section-heading" style="margin-top:55px"><div class="eyebrow">GOOGLE OAUTH</div><h2>連線與授權</h2></div><div class="faq-list">
+    <details><summary>填了 Client ID，按連線後仍失敗。</summary><p>依序確認：Client ID 是 Web application 類型；目前酒館的 origin 已逐字加入 Authorized JavaScript origins；Google Drive API 已啟用；Data Access 的 scope 是 drive.file；授權 Google 帳號已列在 External / Testing 專案的 Test users；腳本使用的 Client ID 與你設定的 Cloud 專案相同。再開啟瀏覽器 Console 查看錯誤代碼。</p></details>
+    <details><summary>錯誤指出 origin 不符。</summary><p>在酒館網址助手輸入實際開啟酒館的完整網址，將產生的 origin 加入 Client 設定。origin 包含 scheme、hostname、port，不含路徑、query 或 fragment。localhost 與 127.0.0.1 不相等；另一個 port 也要另列。儲存後重新開啟授權。</p><a class="text-link" href={`${base}setup/google-oauth/#origin-helper`}>開啟網址助手 →</a></details>
+    <details><summary>Google 說測試使用者未獲授權。</summary><p>回到目前選中的 Google Cloud 專案 → Google Auth Platform → Audience，將你登入的 Google 帳號加入 Test users。確認專案不是選錯、變更已儲存。Testing 設定授權有期限；可能需重新授權。</p></details>
+    <details><summary>完成 Google 畫面後出現 popup_closed。</summary><p>先檢查彈出視窗是否被關閉或瀏覽器阻擋、Console 是否顯示 GIS 錯誤、是否使用正確 origin，以及帳號是否完成同意流程。此訊息不一定是 COOP 問題。若 SillyTavern Console 診斷明確顯示 COOP 為 same-origin，再依你的主機文件確認能否將 Cross-Origin-Opener-Policy 調整為 same-origin-allow-popups；雲端服務請使用部署平台支援的 header 設定，本機若有指南中的 helmet 程式碼，可依<a class="text-link" href={`${base}install/#oauth-troubleshooting`}>授權視窗排錯步驟</a>調整；其他版本請依實際程式或平台支援的 header 設定操作。更改後重啟、重新整理並驗證。</p></details>
+    <details><summary>授權已過期，或我撤銷了存取權。</summary><p>瀏覽器 access token 有期限；Google OAuth Testing 使用者授權也通常於同意 7 天後到期（drive.file 不屬基本身分 scope 例外）。在 TavernRoamer 重新按「連線 Google Drive」完成授權。若撤銷後仍見舊狀態，重新載入酒館再連線。</p></details>
+  </div><div class="section-heading" style="margin-top:55px"><div class="eyebrow">CHAT & RESTORE</div><h2>備份、拉取與還原</h2></div><div class="faq-list">
+    <details id="找不到備份"><summary>另一台裝置看不到來源端的聊天備份。</summary><p>先在來源端確認「上傳目前聊天」確實成功；再確認兩台裝置使用相同 Google Cloud Web Client ID，且授權到含有備份的同一個 Google Drive 帳號。來源裝置 origin 也須列在 Client 中。剛完成備份後重整列表；不要手動把檔案放入同名資料夾，drive.file 可能無法看到未授權的手動檔案。</p></details>
+    <details><summary>目標端沒有角色卡，聊天拉取會怎麼做？</summary><p>從雲端建立聊天時，若本機找不到對應角色卡，程式會嘗試讀取該聊天專屬的角色卡快照。若沒有該快照，需先安裝角色卡，或回來源端執行「備份酒館環境」。其他環境素材不會因拉取聊天自動全部還原。</p><a class="text-link" href={`${base}how-to-use/#pull`}>查看跨裝置步驟 →</a></details>
+    <details><summary>還原會覆蓋我目前的聊天或素材嗎？</summary><p>「從雲端建立其他聊天」會建立新聊天。若本機已有同 chat_id，請先確認雲端版本，切換到該聊天並備份目前本機內容，再使用「更新目前聊天」；此操作會以雲端最新版取代本機聊天。環境還原會套用所選環境項目，可能覆蓋同類項目；預設提示詞 (Preset)、正則 (Regex)、玩家人設(Persona) 等共用素材可能影響其他聊天。先備份目前環境並仔細核對還原預覽。</p></details>
+    <details><summary>停用或移除腳本會刪除 Drive 備份嗎？</summary><p>不會自動刪除。要刪除雲端檔案，請到 Google Drive 自行管理。注意程式目前的聊天版本保留設定可能會清理較舊版本。</p></details>
+    <details><summary>自動同步是不是背景即時備份？</summary><p>不是背景排程。程式依訊息事件及「自動同步每 N 則」門檻觸發聊天同步；預設啟用、N 為 1。它不會自動備份所有環境素材。你可以在設定中調整或關閉。</p></details>
+  </div><div class="section-heading" id="回報問題" style="margin-top:55px"><div class="eyebrow">NEED A HAND?</div><h2>仍然卡住？先記下這些資訊</h2><p>記錄錯誤文字、SillyTavern 和酒館助手版本、目前頁面所用的酒館 origin、操作步驟和是否能重現。分享前遮蔽 email、Client ID、token、聊天內容及私人網址。</p><p>公開問題回報入口尚未確認；待維護者公布回報管道後，可提供上述資訊協助排查。不要將 Client Secret、access token 或私密聊天貼到公開討論區。</p></div></div></section>
+</SiteLayout>

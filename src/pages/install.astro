@@ -1,0 +1,115 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageChapters from '../components/PageChapters.astro';
+const base = import.meta.env.BASE_URL;
+const chapters = [
+  { href: '#prepare', number: '00', label: '出發前先準備' },
+  { href: '#install-helper', number: '01', label: '安裝酒館與助手' },
+  { href: '#import-script', number: '02', label: '加入 TavernRoamer 腳本' },
+  { href: '#enable-script', number: '03', label: '啟用並確認面板' },
+  { href: '#connect-google', number: '04', label: '連線 Google Drive' },
+  { href: '#quick-check', number: '05', label: '快速檢查與測試' },
+  { href: '#oauth-troubleshooting', number: '06', label: '授權視窗排錯' },
+  { href: '#maintenance', number: '07', label: '更新與解除安裝' }
+];
+---
+<SiteLayout title="安裝指南" description="在酒館助手的全域腳本庫加入 TavernRoamer，啟用面板、設定 Google OAuth 並完成首次備份測試。" active="install">
+  <header class="page-hero"><div class="wrap"><div class="page-kicker">FIELD GUIDE / 01</div><h1>安裝與第一次出發</h1><p class="lead">先安裝 SillyTavern 與酒館助手，再把 TavernRoamer 加入酒館助手的全域腳本庫。確認面板能開啟後，設定 Google Drive 連線。</p></div></header>
+  <PageChapters chapters={chapters} label="安裝指南章節">
+  <section class="section"><div class="callout"><strong>目前提供 TavernRoamer 的 main 分支腳本。</strong>下方程式碼會從公開的 jsDelivr 網址載入腳本；main 分支內容可能更新，並非固定版本。<a class="text-link" href={`${base}changelog/`}>查看版本與來源說明 →</a></div></section>
+  <section class="section" id="prepare"><div class="section-heading"><div class="eyebrow">BEFORE YOU BEGIN</div><h2>出發前先準備</h2></div><div class="grid-2"><article class="card"><h3>SillyTavern</h3><p>準備可正常開啟的酒館環境；TavernRoamer 自身的相容版本仍需實際驗證。</p></article><article class="card"><h3>酒館助手（JS-Slash-Runner）</h3><p>酒館助手官方安裝文件目前要求 SillyTavern 1.13.0 以上。先依<a class="text-link" href="https://n0vi028.github.io/JS-Slash-Runner-Doc/guide/%E5%85%B3%E4%BA%8E%E9%85%92%E9%A6%86%E5%8A%A9%E6%89%8B/%E5%AE%89%E8%A3%85%E4%B8%8E%E6%9B%B4%E6%96%B0.html">官方安裝與更新說明</a>完成擴充功能安裝。</p></article><article class="card"><h3>Google 帳號</h3><p>用來建立自己的 Google Cloud 專案、OAuth Web Client，並授權腳本存取自己的 Drive 檔案。</p></article><article class="card"><h3>Google Cloud 設定權限</h3><p>需能建立專案、啟用 Drive API、設定 OAuth 同意畫面、測試使用者及來源 origin。</p><a class="text-link" href={`${base}setup/google-oauth/`}>前往 Google OAuth 設定指南 →</a></article></div></section>
+  <section class="section" id="steps"><div class="section-heading"><div class="eyebrow">INSTALLATION PATH</div><h2>安裝順序</h2><p>先安裝酒館助手擴充功能，再到它的腳本庫新增 TavernRoamer。這是兩個不同的安裝位置。</p></div><div class="steps"><article class="step" id="install-helper">
+  <h3>安裝 SillyTavern 與酒館助手</h3>
+  <ol class="helper-steps">
+    <li>在 SillyTavern 開啟擴充功能頁面，選擇安裝擴充功能。</li>
+    <li>貼上酒館助手官方倉庫來源，確認後安裝，再依官方文件重啟或重新載入。</li>
+    <li>若使用不同網路環境或 Git 安裝方式，請查看酒館助手官方安裝頁的對應步驟。</li>
+  </ol>
+  <code class="code helper-source">https://github.com/N0VI028/JS-Slash-Runner</code>
+  <p><a class="text-link" href="https://n0vi028.github.io/JS-Slash-Runner-Doc/guide/%E5%85%B3%E4%BA%8E%E9%85%92%E9%A6%86%E5%8A%A9%E6%89%8B/%E5%AE%89%E8%A3%85%E4%B8%8E%E6%9B%B4%E6%96%B0.html">酒館助手官方安裝／更新指南 ↗</a></p>
+  <p class="evidence">完成後：SillyTavern 可開啟酒館助手功能。</p>
+</article><article class="step" id="import-script">
+  <h3>在全域腳本庫加入 TavernRoamer</h3>
+  <p>開啟<strong>酒館助手 → 腳本庫 → 全域腳本庫</strong>，新增腳本並命名為「TavernRoamer」。將下方<strong>整行程式碼</strong>貼入腳本編輯區：</p>
+  <pre class="code import-code" id="install-code"><code>import 'https://cdn.jsdelivr.net/gh/TwinkleStars1029/TavernRoamer@main/dist/tavern-roamer.js';</code></pre>
+  <button class="button secondary copy-install" id="copy-install" type="button">複製腳本程式碼</button>
+  <p class="copy-feedback" id="copy-install-feedback" role="status" aria-live="polite"></p>
+  <p>這個網址是 <a class="text-link" href="https://cdn.jsdelivr.net/gh/TwinkleStars1029/TavernRoamer@main/dist/tavern-roamer.js">TavernRoamer 腳本來源</a>，不是 SillyTavern 的擴充功能倉庫。<strong>不要把它貼進「安裝擴充功能」欄位。</strong>腳本會從 main 分支載入，內容可能更新。</p>
+  <p class="evidence">完成後：全域腳本庫中有一個名為「TavernRoamer」的腳本，內容是上方的 import 程式碼。</p>
+</article><article class="step" id="enable-script">
+  <h3>儲存、啟用並確認面板</h3>
+  <p>儲存並啟用剛新增的腳本，重新整理 SillyTavern。開啟魔杖選單，選擇 TavernRoamer；若沒有看到入口，先確認腳本是否啟用，以及酒館瀏覽器能否讀取上方腳本網址。</p>
+  <p class="evidence">完成後：可以開啟 TavernRoamer 面板，看到 Google Drive 的連線狀態。</p>
+</article><article class="step" id="connect-google">
+  <h3>設定 Google Client ID 並連線</h3>
+  <p>依<a class="text-link" href={`${base}setup/google-oauth/`}>Google OAuth 完整設定指南</a>取得 Client ID。回到 TavernRoamer 設定，填入 Google Client ID、按「儲存設定」，再按「連線 Google Drive」完成授權。</p>
+  <p class="evidence">完成後：面板顯示 Drive 已連線。若授權視窗未能完成，先看下方排錯步驟。</p>
+</article><article class="step" id="quick-check">
+  <h3>執行快速檢查與測試備份</h3>
+  <p>在 TavernRoamer 設定中執行「快速檢查」。接著選一筆非重要聊天，按「上傳目前聊天」，等進度完成並確認首頁「待傳」為「無」。</p>
+  <p class="evidence">完成後：快速檢查與測試備份顯示成功，且聊天不再待傳。</p>
+</article></div><div class="callout">跨裝置使用時，每台裝置都要安裝 TavernRoamer、填入相同 Google OAuth Client ID，並使用可存取同一份 Drive 備份的帳號授權。</div></section>
+  <section class="section" id="oauth-troubleshooting"><h2>授權視窗無法完成時</h2><p>若 Google 授權視窗關閉後仍顯示 <code class="inline-code">popup_closed</code>，先確認彈出視窗沒有被瀏覽器阻擋、帳號已完成同意流程，並查看 Console 錯誤。這個訊息不一定由 COOP 設定造成；只有診斷顯示相關阻擋時，再依安裝方式調整伺服器標頭。</p><details class="coop-explainer"><summary>本機 SillyTavern 使用 helmet，且 COOP 診斷指向 same-origin 時</summary><div><p>若你的 <code class="inline-code">SillyTavern/src/server-main.js</code> 有下列設定，可參考此例調整；其他版本或雲端部署請依實際程式與平台文件設定。</p><pre class="code"><code>app.use(helmet(&#123;
+    contentSecurityPolicy: false,
+&#125;));</code></pre><p>調整為：</p><pre class="code"><code>app.use(helmet(&#123;
+    contentSecurityPolicy: false,
+    crossOriginOpenerPolicy: &#123;
+        policy: 'same-origin-allow-popups',
+    &#125;,
+&#125;));</code></pre><p>儲存後重新啟動 SillyTavern、重新整理酒館，再重試 Google 連線。<a class="text-link" href={`${base}faq/`}>查看其他授權排錯方式 →</a></p><p class="coop-sources">設定背景：<a class="text-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy">MDN 的 COOP 說明</a>。</p></div></details></section>
+  <section class="section" id="maintenance"><h2>更新與解除安裝</h2><div class="grid-2"><div class="card"><h3>更新</h3><p>目前的 import 網址指向 main 分支；分支內容更新後，CDN 快取可能使新內容稍晚生效。網站尚未提供固定版本連結。更新前請查看<a class="text-link" href={`${base}changelog/`}>版本與來源說明</a>，並先保留重要聊天備份。</p></div><div class="card"><h3>停用或移除</h3><p>依酒館助手腳本庫介面停用或移除 TavernRoamer 腳本。停用或移除不會自動刪除 Google Drive 中的備份。</p></div></div></section>
+  </PageChapters>
+</SiteLayout>
+<script>
+  const copyButton = document.querySelector<HTMLButtonElement>('#copy-install');
+  const installCode = document.querySelector<HTMLElement>('#install-code code');
+  const copyFeedback = document.querySelector<HTMLElement>('#copy-install-feedback');
+
+  copyButton?.addEventListener('click', async () => {
+    const code = installCode?.textContent?.trim();
+    if (!code || !copyFeedback) return;
+    try {
+      await navigator.clipboard.writeText(code);
+      copyFeedback.textContent = '已複製腳本程式碼，可貼到酒館助手的全域腳本庫。';
+    } catch {
+      copyFeedback.textContent = '瀏覽器無法自動複製；請選取上方整行程式碼手動複製。';
+    }
+  });
+</script>
+<style>
+  .helper-steps {
+    margin: 0 0 18px;
+    padding-left: 24px;
+  }
+
+  .helper-steps li + li { margin-top: 9px; }
+  .helper-source { margin-bottom: 18px; }
+
+  .import-code { margin: 16px 0 12px; white-space: pre-wrap; }
+  .copy-install { cursor: pointer; border: 1px solid #606a5a; font-family: inherit; }
+  .copy-feedback { min-height: 1.8em; margin: 8px 0 18px; color: var(--green); font-size: 12px; }
+
+  pre.code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .coop-explainer {
+    margin-top: 20px;
+    padding: 15px 17px;
+    border: 1px solid var(--line);
+    background: var(--panel2);
+  }
+
+  .coop-explainer summary {
+    cursor: pointer;
+    color: var(--cream);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .coop-explainer[open] summary { margin-bottom: 14px; }
+  .coop-explainer p { margin: 0 0 11px; }
+  .coop-explainer p:last-child { margin-bottom: 0; }
+  .coop-explainer .coop-sources { font-size: 11px; }
+</style>

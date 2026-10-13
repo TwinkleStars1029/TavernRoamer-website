@@ -1,0 +1,38 @@
+---
+interface Chapter {
+  href: string;
+  number: string;
+  label: string;
+}
+
+interface Props {
+  chapters: Chapter[];
+  label: string;
+}
+
+const { chapters, label } = Astro.props;
+---
+
+<div class="wrap tutorial-layout">
+  <nav class="tutorial-toc" aria-label={label}>
+    <span class="toc-title">本頁章節</span>
+    {chapters.map(chapter => <a href={chapter.href}><span>{chapter.number}</span>{chapter.label}</a>)}
+  </nav>
+  <div class="tutorial-content"><slot /></div>
+</div>
+
+<style>
+  .tutorial-layout { display:grid;grid-template-columns:205px minmax(0,1fr);gap:clamp(26px,5vw,66px);align-items:start; }
+  .tutorial-toc { position:sticky;top:100px;margin-top:54px;padding:16px 0 18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:3px; }
+  .toc-title { color:var(--gold);font:10px var(--mono);letter-spacing:1.3px;margin:0 12px 10px; }
+  .tutorial-toc a { display:flex;gap:12px;align-items:baseline;color:#c5c9b9;text-decoration:none;font-size:12px;padding:10px 12px;border-left:2px solid transparent;line-height:1.5; }
+  .tutorial-toc a span { color:var(--gold);font:10px var(--mono); }
+  .tutorial-toc a:hover,.tutorial-toc a:focus-visible { color:var(--green);border-left-color:var(--green);background:#222a22; }
+  .tutorial-content { min-width:0; }
+  @media(max-width:1050px) {
+    .tutorial-layout { grid-template-columns:1fr;gap:0; }
+    .tutorial-toc { position:static;display:flex;flex-wrap:wrap;gap:4px 8px;margin-top:25px;padding:14px 0; }
+    .toc-title { width:100%;margin:0 0 4px; }
+    .tutorial-toc a { border:1px solid var(--line);padding:9px 11px; }
+  }
+</style>

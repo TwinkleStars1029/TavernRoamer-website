@@ -1,0 +1,234 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageChapters from '../components/PageChapters.astro';
+const base = import.meta.env.BASE_URL;
+const chapters = [
+  { href: '#chat-flow', number: '→', label: '跨裝置快速流程' },
+  { href: '#start', number: '00', label: '開始前' },
+  { href: '#connect', number: '01', label: '開啟面板並連線' },
+  { href: '#upload', number: '02', label: '來源裝置上傳聊天' },
+  { href: '#pull', number: '03', label: '目標裝置建立聊天' },
+  { href: '#update', number: '04', label: '已有聊天時更新' },
+  { href: '#environment', number: '05', label: '備份與還原環境' },
+  { href: '#auto-sync', number: '06', label: '自動同步與版本' },
+  { href: '#check', number: '07', label: '完成檢查與排錯' }
+];
+---
+
+<SiteLayout title="使用教學" description="先看 TavernRoamer 跨裝置接續聊天的快速流程，再跟著實際面板完成連線、上傳、建立或更新聊天，以及按需備份酒館環境。" active="how-to-use">
+  <header class="page-hero tutorial-hero">
+    <div class="wrap tutorial-hero-grid">
+      <div>
+        <div class="page-kicker">FIELD GUIDE / HOW TO USE</div>
+        <h1>把故事帶到下一台，<br /><span>一步一步接著聊。</span></h1>
+        <p class="lead">先看跨裝置的完整路線，再依照實際面板操作。第一次手動上傳並確認成功；另一台裝置依本地是否已有聊天，選擇建立或更新。</p>
+        <div class="button-row"><a class="button" href="#chat-flow">先看快速流程 <span aria-hidden="true">↓</span></a><a class="button secondary" href={base + 'install/'}>還沒安裝？先看這裡</a></div>
+      </div>
+      <div class="journey-card" id="chat-flow" aria-label="跨裝置快速流程">
+        <div class="journey-head"><span>QUICK ROUTE</span><span>來源 → 目標</span></div>
+        <ol>
+          <li><span>01</span><div><strong><a href="#start">準備與連線</a></strong><small>兩台裝置安裝並連到可存取同一份備份的 Drive 帳號</small></div></li>
+          <li><span>02</span><div><strong><a href="#upload">來源裝置：上傳</a></strong><small>選對角色與聊天，手動上傳並確認「待傳」為無</small></div></li>
+          <li><span>03</span><div><strong><a href="#pull">目標裝置：建立或更新</a></strong><small>本地沒有聊天就建立；已有同一聊天就更新</small></div></li>
+          <li><span>04</span><div><strong><a href="#check">完成檢查</a></strong><small>核對角色、訊息與狀態；其他素材按需還原</small></div></li>
+        </ol>
+      </div>
+    </div>
+  </header>
+
+  <PageChapters chapters={chapters} label="使用教學章節">
+      <section class="tutorial-section" id="start" aria-labelledby="start-title">
+        <div class="chapter-label">00 / BEFORE YOU GO</div>
+        <h2 id="start-title">開始前，先備好兩台裝置。</h2>
+        <p class="chapter-intro">這份教學從已安裝 TavernRoamer 的 SillyTavern 畫面開始。若尚未加入腳本，先照<a class="text-link" href={`${base}install/`}>安裝指南</a>在酒館助手全域腳本庫完成安裝，再回到這頁。</p>
+        <div class="prep-grid">
+          <div class="prep-item"><span>01</span><strong>每台都能開啟面板</strong><p>兩台裝置各自安裝 SillyTavern、酒館助手與 TavernRoamer。</p></div>
+          <div class="prep-item"><span>02</span><strong>同一組 Client ID</strong><p>每個酒館網址都要列在 Google OAuth Client 的授權來源中。</p></div>
+          <div class="prep-item"><span>03</span><strong>同一個 Drive 帳號</strong><p>兩台裝置都要授權可存取這份備份的 Google 帳號。</p></div>
+        </div>
+        <p class="inline-note">還沒有 Google Client ID？照<a class="text-link" href={`${base}setup/google-oauth/`}>Google OAuth 圖文設定</a>完成專案、Drive API、測試使用者與 Web Client 設定，再回到這頁。</p>
+      </section>
+
+      <section class="tutorial-section" id="connect" aria-labelledby="connect-title">
+        <div class="chapter-label">01 / CONNECT</div>
+        <h2 id="connect-title">開啟「雲端漫遊」並連線。</h2>
+        <div class="instruction-grid">
+          <div>
+            <ol class="instruction-list">
+              <li><span>1</span><p>在 SillyTavern 打開<strong>魔杖選單</strong>，選 <strong>TavernRoamer</strong>。</p></li>
+              <li><span>2</span><p>面板首頁點 <strong>前往連線</strong>，進入「連線與同步設定」。</p></li>
+              <li><span>3</span><p>填入 <strong>Google Client ID</strong>，確認裝置名稱，點 <strong>儲存設定</strong>，再點 <strong>連線 Google Drive</strong> 並完成授權。</p></li>
+            </ol>
+            <div class="result-box"><span>完成時看這裡</span><p>回到首頁，Google Drive 顯示「已連線」及預期的帳號。若仍顯示「尚未連線」，先查<a class="text-link" href={`${base}faq/`}>連線常見問題</a>。</p></div>
+          </div>
+          <figure class="tutorial-shot">
+            <img src={`${base}images/interface/settings-live.jpg`} width="575" height="680" loading="lazy" alt="TavernRoamer 連線與同步設定的實際截圖，顯示 Client ID、裝置名稱、連線及儲存按鈕" />
+            <figcaption>實際設定畫面。截圖中的 Client ID 與裝置名稱已換成示範文字。</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="upload" aria-labelledby="upload-title">
+        <div class="chapter-label">02 / SOURCE DEVICE</div>
+        <h2 id="upload-title">在來源裝置，上傳目前聊天。</h2>
+        <p class="chapter-intro">先在 SillyTavern 開啟要帶走的角色與聊天，再回到 TavernRoamer。首頁的「目前角色」「目前聊天」就是這次操作的對象。</p>
+        <ol class="instruction-list">
+          <li><span>1</span><p>核對首頁的角色、聊天檔名及「同步狀態」，避免上傳到另一段對話。</p></li>
+          <li><span>2</span><p>在「聊天同步」選 <strong>上傳目前聊天</strong>。下一頁會列出聊天資訊與雲端檔案預覽；確認後按 <strong>確認上傳</strong>。</p></li>
+          <li><span>3</span><p>在「執行進度」等待這筆工作完成，回首頁確認「最後同步」與「待傳」。</p></li>
+        </ol>
+        <div class="result-box"><span>完成時看這裡</span><p>進度顯示完成，首頁「待傳」為「無」。若顯示「待傳 N 筆」或警告訊息，代表尚未完成雲端上傳；重新連線後再確認，不能只憑畫面出現雲端路徑判斷成功。</p></div>
+        <div class="tip-row"><strong>後續怎麼同步？</strong><p>首次先手動上傳並核對結果。自動同步的觸發方式和版本保留，見<a class="text-link" href="#auto-sync">自動同步與版本</a>。</p></div>
+      </section>
+
+      <section class="tutorial-section" id="pull" aria-labelledby="pull-title">
+        <div class="chapter-label">03 / SECOND DEVICE</div>
+        <h2 id="pull-title">在另一台裝置，建立本地聊天。</h2>
+        <p class="chapter-intro">新裝置尚未有這段聊天時，使用「從雲端建立其他聊天」。這會建立並開啟本地副本。</p>
+        <ol class="instruction-list">
+          <li><span>1</span><p>在另一台裝置完成連線，確認首頁是同一個 Google Drive 帳號。</p></li>
+          <li><span>2</span><p>選 <strong>從雲端建立其他聊天</strong>，依序選雲端角色與聊天。清單會顯示聊天 ID、最新時間、來源裝置及版本數。</p></li>
+          <li><span>3</span><p>在聊天列按 <strong>建立</strong>，核對確認頁的角色與聊天 ID，再按 <strong>建立本地聊天</strong>。</p></li>
+        </ol>
+        <div class="result-box"><span>完成時看這裡</span><p>新聊天在 SillyTavern 開啟；核對角色、訊息順序與最後幾則內容。若本地沒有角色卡，程式會嘗試從該聊天的雲端備份還原；沒有角色卡備份時，先安裝角色卡或回來源端備份環境。</p></div>
+        <div class="callout warning">若本地已存在相同聊天 ID，建立流程會停止。請切到那段既有聊天，依下一節「更新目前聊天」操作。</div>
+      </section>
+
+      <section class="tutorial-section" id="update" aria-labelledby="update-title">
+        <div class="chapter-label">04 / EXISTING CHAT</div>
+        <h2 id="update-title">已有同一段聊天，就更新目前聊天。</h2>
+        <p class="chapter-intro">當首頁顯示「雲端有新版」，而你要讓目前聊天接上雲端內容時使用。這項操作會改動目前聊天。</p>
+        <div class="decision-card" role="group" aria-label="建立與更新聊天的選擇">
+          <div><span>本地沒有這段聊天</span><strong>從雲端建立其他聊天</strong><small>新增本地副本</small></div>
+          <div><span>本地已有這段聊天</span><strong>更新目前聊天</strong><small>以雲端最新版取代目前內容</small></div>
+        </div>
+        <ol class="instruction-list">
+          <li><span>1</span><p>切到要更新的本地聊天，核對首頁「目前角色」「目前聊天」與同步狀態。若本地有未上傳變更，先上傳或另行保存。</p></li>
+          <li><span>2</span><p>按 <strong>更新目前聊天</strong>，閱讀確認頁，再按 <strong>確認更新</strong>。</p></li>
+          <li><span>3</span><p>等待進度完成，到酒館核對聊天內容與最後訊息。</p></li>
+        </ol>
+        <div class="callout warning"><strong>覆蓋與還原點：</strong>程式會先把目前聊天存到 Google Drive 的 <code class="inline-code">_pre_restore</code>，再用雲端最新版更新。目前面板沒有一鍵從該還原點復原的功能；操作前仍要確認重要本地內容已保存。</div>
+      </section>
+
+      <section class="tutorial-section" id="environment" aria-labelledby="environment-title">
+        <div class="chapter-label">05 / TAVERN ENVIRONMENT</div>
+        <h2 id="environment-title">聊天以外的素材，另外備份與還原。</h2>
+        <p class="chapter-intro">可選擇角色卡、世界書、玩家人設(Persona)、預設提示詞 (Preset)、正則 (Regex)。拉取聊天不會自動還原所有這些項目。</p>
+        <div class="environment-grid">
+          <article class="card"><div class="tag">來源裝置</div><h3>備份酒館環境</h3><ol><li>首頁點「備份酒館環境」。</li><li>勾選要保存的類型，按「開始備份」。</li><li>逐項查看進度與結果；失敗項目可按「重試」。</li></ol><p class="checkline">完成判據：所需項目均顯示完成。</p></article>
+          <article class="card"><div class="tag">目標裝置</div><h3>還原酒館環境</h3><ol><li>首頁點「還原酒館環境」並勾選類型。</li><li>按「預覽還原內容」，核對有雲端備份的項目與將套用的內容。</li><li>按「確認還原」，逐項查看完成、略過或失敗。</li></ol><p class="checkline">完成判據：在酒館核對所需素材的實際內容。</p></article>
+        </div>
+        <p class="inline-note">還原採各項雲端最新版；沒有備份的項目會略過。每項覆蓋前會先嘗試備份本地現況至 <code class="inline-code">_pre_restore</code>，若該項備份失敗，該項不會套用。預設提示詞 (Preset)、正則 (Regex) 等共用素材可能影響其他聊天。</p>
+      </section>
+
+      <section class="tutorial-section" id="auto-sync" aria-labelledby="auto-sync-title">
+        <div class="chapter-label">06 / AUTOMATIC UPDATES</div>
+        <h2 id="auto-sync-title">後續同步與版本保留。</h2>
+        <p class="chapter-intro">第一次先手動上傳，確定備份可在另一台裝置找到。後續可依需要使用自動同步，並留意雲端版本保留設定。</p>
+        <div class="auto-grid">
+          <article class="card"><div class="tag">AUTO SYNC</div><h3>訊息達到門檻後才嘗試上傳</h3><p>設定預設啟用自動同步，每 1 則完成的訊息作為觸發門檻；通常約 10 秒後才開始嘗試上傳。可在設定中關閉或調整「自動同步每 N 則」。它依聊天訊息事件觸發，不是背景排程，也不會備份所有酒館環境。</p></article>
+          <article class="card"><div class="tag">RETENTION</div><h3>確認要保留多少版本</h3><p>目前預設保留聊天最新 10 個版本；超過保留值的舊版本可能被刪除。重要版本請另外保存，並在正式操作前確認設定。</p><a class="text-link" href={base + 'data-and-permissions/'}>查看資料與保留方式 →</a></article>
+        </div>
+        <p class="inline-note">想檢查自動同步是否符合自己的使用方式，可先用一段非重要聊天測試，並確認首頁「待傳」與 Drive 中的更新結果。</p>
+      </section>
+
+      <section class="tutorial-section" id="check" aria-labelledby="check-title">
+        <div class="chapter-label">07 / CHECK THE RESULT</div>
+        <h2 id="check-title">最後看狀態，也核對實際內容。</h2>
+        <ul class="finish-list">
+          <li>目標裝置開啟的是預期的角色與聊天。</li>
+          <li>訊息順序與最後幾則內容和來源裝置相符。</li>
+          <li>需要的角色卡、世界書或其他素材已另行確認。</li>
+          <li>更新聊天前已保存重要本地內容；還原共用素材前已確認影響範圍。</li>
+        </ul>
+
+        <div class="status-grid">
+          <div><span class="status-dot green"></span><strong>已是最新</strong><p>目前聊天與已知的雲端版本一致。</p></div>
+          <div><span class="status-dot gold"></span><strong>雲端有新版</strong><p>先確認本地變更，再決定是否更新目前聊天。</p></div>
+          <div><span class="status-dot rust"></span><strong>本地有未上傳變更</strong><p>需要帶走變更時，先上傳目前聊天。</p></div>
+          <div><span class="status-dot grey"></span><strong>未連線／未知</strong><p>檢查 Drive 帳號、授權及目前聊天狀態。</p></div>
+        </div>
+        <div class="check-bottom">
+          <figure class="tutorial-shot compact-shot"><img src={`${base}images/interface/home-drive-live.jpg`} width="575" height="208" loading="lazy" alt="實際雲端漫遊首頁在尚未連線時的狀態，右側有前往連線按鈕" /><figcaption>實際畫面：尚未連線時，首頁會提供「前往連線」。</figcaption></figure>
+          <div><h3>卡住時先做這三件事</h3><ol class="plain-list"><li>看「執行進度」和面板底部訊息，確認是完成、略過或失敗。</li><li>看首頁的「待傳」；有筆數時，先重新連線再確認上傳結果。</li><li>在設定中執行「快速檢查」。進階診斷只適合專用測試資料。</li></ol><a class="text-link" href={`${base}faq/`}>依症狀查看常見問題 →</a></div>
+        </div>
+        <div class="callout">這份教學依目前程式與面板撰寫；Google 授權、兩裝置接續及各環境項目仍需用實際 SillyTavern 驗證。畫面會因腳本版本和酒館主題略有差異。</div>
+      </section>
+  </PageChapters>
+</SiteLayout>
+
+<style>
+  .tutorial-hero { background:radial-gradient(ellipse at 82% 35%,#3f49335c,transparent 42%),linear-gradient(115deg,#171b19,#202721); }
+  .tutorial-hero h1 span { color:var(--green); }
+  .tutorial-hero-grid { display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,.64fr);align-items:center;gap:clamp(30px,6vw,82px); }
+  .journey-card { border:1px solid #69765e;background:#202823;box-shadow:18px 18px 0 #101512;min-width:0;scroll-margin-top:100px; }
+  .journey-card a { color:inherit;text-decoration:none; }
+  .journey-card a:hover { color:var(--green);text-decoration:underline;text-underline-offset:3px; }
+  .journey-head { display:flex;justify-content:space-between;padding:16px 21px;border-bottom:1px solid var(--line);color:var(--gold);font:10px var(--mono);letter-spacing:1.2px; }
+  .journey-card ol { list-style:none;margin:0;padding:8px 21px 16px; }
+  .journey-card li { display:grid;grid-template-columns:39px 1fr;gap:9px;padding:13px 0;border-bottom:1px solid #ffffff13; }
+  .journey-card li:last-child { border-bottom:0; }
+  .journey-card li>span { color:var(--gold);font:12px var(--mono);padding-top:3px; }
+  .journey-card strong,.journey-card small { display:block; }
+  .journey-card strong { color:var(--cream);font-size:14px; }
+  .journey-card small { color:var(--muted);font-size:11px;margin-top:4px;line-height:1.5; }
+  .tutorial-section { padding:63px 0 69px;border-bottom:1px solid #ffffff17;scroll-margin-top:78px; }
+  .tutorial-section:last-child { border-bottom:0; }
+  .chapter-label { color:var(--gold);font:11px var(--mono);letter-spacing:1.4px;margin-bottom:14px; }
+  .tutorial-section h2 { max-width:720px;margin-bottom:16px; }
+  .chapter-intro { color:#c0c5b8;font-size:15px;line-height:1.9;max-width:760px;margin-bottom:26px; }
+  .prep-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px; }
+  .prep-item { background:var(--panel);border:1px solid var(--line);padding:20px;min-width:0; }
+  .prep-item>span { display:block;color:var(--gold);font:12px var(--mono);margin-bottom:25px; }
+  .prep-item strong { color:var(--cream);font-size:14px; }
+  .prep-item p { color:var(--muted);font-size:12px;line-height:1.75;margin:9px 0 0; }
+  .inline-note { color:#c4c8b8;font-size:13px;line-height:1.85;padding:16px 19px;border-left:2px solid var(--green);background:#242d25;margin:22px 0 0; }
+  .instruction-grid { display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.72fr);gap:25px;align-items:start; }
+  .instruction-list { list-style:none;margin:0 0 24px;padding:0;display:grid;gap:0; }
+  .instruction-list li { display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;padding:16px 0;border-bottom:1px solid var(--line); }
+  .instruction-list li:first-child { border-top:1px solid var(--line); }
+  .instruction-list li>span { display:grid;place-items:center;width:29px;height:29px;border:1px solid #6a795c;border-radius:50%;color:var(--green);font:12px var(--mono); }
+  .instruction-list p { color:#c5c9bc;font-size:14px;line-height:1.85;margin:0; }
+  .instruction-list strong { color:var(--cream); }
+  .result-box { background:#252f27;border-left:2px solid var(--green);padding:17px 20px;margin-top:6px; }
+  .result-box>span { display:block;color:var(--green);font:10px var(--mono);letter-spacing:1.1px;margin-bottom:7px; }
+  .result-box p { color:#d3d9ca;font-size:13px;line-height:1.8;margin:0; }
+  .tutorial-shot { margin:0;min-width:0; }
+  .tutorial-shot img { display:block;width:100%;height:auto;border:1px solid #5b665d;background:#1c211f; }
+  .tutorial-shot figcaption { color:var(--muted);font-size:11px;line-height:1.7;margin-top:9px; }
+  .tip-row { display:grid;grid-template-columns:190px minmax(0,1fr);gap:18px;margin-top:23px;padding:18px 20px;background:var(--panel);border:1px solid var(--line); }
+  .tip-row strong { color:var(--cream);font-size:13px; }
+  .tip-row p { color:var(--muted);font-size:12px;line-height:1.75;margin:0; }
+  .decision-card { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:25px 0; }
+  .decision-card>div { background:var(--panel);padding:18px 20px;min-width:0; }
+  .decision-card span,.decision-card strong,.decision-card small { display:block; }
+  .decision-card span { color:var(--gold);font-size:11px;margin-bottom:10px; }
+  .decision-card strong { color:var(--cream);font-size:14px;margin-bottom:6px; }
+  .decision-card small { color:var(--muted);font-size:11px;line-height:1.6; }
+  .environment-grid,.auto-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px; }
+  .auto-grid .card { min-width:0; }
+  .auto-grid h3 { margin:12px 0 18px; }
+  .auto-grid .text-link { display:inline-block;margin-top:16px;font-size:12px; }
+  .finish-list { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;list-style:none;margin:20px 0 29px;padding:0; }
+  .finish-list li { padding:15px 16px 15px 39px;position:relative;background:var(--panel);border:1px solid var(--line);color:#c8ccbe;font-size:13px;line-height:1.7; }
+  .finish-list li:before { content:"✓";position:absolute;left:15px;color:var(--green);font-weight:700; }
+  .environment-grid .card { min-width:0; }
+  .environment-grid h3 { margin:12px 0 18px; }
+  .environment-grid ol { margin:0 0 18px;padding-left:20px;color:#c2c6b9;font-size:13px;line-height:1.85; }
+  .environment-grid li+li { margin-top:9px; }
+  .environment-grid .checkline { color:var(--green);border-top:1px solid var(--line);padding-top:13px; }
+  .status-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px; }
+  .status-grid>div { position:relative;padding:18px 20px 18px 44px;border:1px solid var(--line);background:var(--panel);min-width:0; }
+  .status-grid strong { color:var(--cream);font-size:14px; }
+  .status-grid p { color:var(--muted);font-size:12px;line-height:1.7;margin:7px 0 0; }
+  .status-dot { position:absolute;top:23px;left:20px;width:11px;height:11px;border-radius:50%; }
+  .status-dot.green { background:#9fc889; }.status-dot.gold { background:#d4b16b; }.status-dot.rust { background:#c98262; }.status-dot.grey { background:#9ba299; }
+  .check-bottom { display:grid;grid-template-columns:minmax(220px,.85fr) minmax(0,1fr);gap:24px;margin-top:27px;align-items:start; }
+  .check-bottom h3 { margin:0 0 15px; }
+  .plain-list { color:#c4c8bb;font-size:13px;line-height:1.75;padding-left:21px;margin:0 0 16px; }
+  .plain-list li+li { margin-top:9px; }
+  .check-bottom .text-link { font-size:12px; }
+  @media(max-width:1050px) { .tutorial-section { padding:54px 0; } }
+  @media(max-width:700px) { .tutorial-hero-grid,.instruction-grid,.check-bottom,.auto-grid,.finish-list { grid-template-columns:1fr; } .journey-card { max-width:520px;box-shadow:8px 8px 0 #101512; } .prep-grid { grid-template-columns:1fr; } .prep-item { display:grid;grid-template-columns:30px 1fr;column-gap:12px;padding:15px; } .prep-item>span { grid-row:1/3;margin:2px 0 0; } .prep-item p { grid-column:2;margin-top:3px; } .tutorial-shot { max-width:575px; } }
+  @media(max-width:520px) { .decision-card,.environment-grid,.auto-grid,.status-grid,.finish-list { grid-template-columns:1fr; } .tip-row { grid-template-columns:1fr;gap:7px; } .tutorial-hero h1 { font-size:clamp(35px,10vw,48px); } .chapter-intro { font-size:14px; } }
+</style>

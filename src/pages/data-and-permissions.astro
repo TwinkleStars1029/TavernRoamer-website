@@ -1,0 +1,102 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+const base = import.meta.env.BASE_URL;
+const driveTree = [
+  'SillyTavernSync/',
+  '└─ {role_key}/',
+  '   └─ {chat_id}/',
+  '      ├─ chat/              {上傳時間}__{裝置}.jsonl',
+  '      ├─ character/         {上傳時間}__{裝置}.json',
+  '      ├─ world/             {上傳時間}__{裝置}.json',
+  '      ├─ persona/           {上傳時間}__{裝置}.json',
+  '      ├─ preset/            {上傳時間}__{裝置}.json',
+  '      ├─ regex/             {上傳時間}__{裝置}.json',
+  '      └─ _pre_restore/',
+  '         └─ {還原點時間}/',
+  '            ├─ {上傳時間}__{裝置}.jsonl',
+  '            └─ {項目類型}/{上傳時間}__{裝置}.json',
+].join('\n');
+---
+<SiteLayout title="資料與權限" description="了解 TavernRoamer 的 Google Drive 目錄、聊天與酒館環境如何備份和讀取、版本保留、還原點與授權範圍。" active="data-and-permissions">
+  <header class="page-hero"><div class="wrap">
+    <div class="page-kicker">FIELD NOTES / DATA & ACCESS</div>
+    <h1>資料存在哪裡，<br />又怎麼讀回來？</h1>
+    <p class="lead">TavernRoamer 把聊天與你選擇的酒館環境項目，存進你授權的 Google Drive。這一頁沿著檔案路徑，說明每次備份、讀取及覆蓋實際會做什麼。</p>
+    <nav class="page-jump" aria-label="本頁段落"><a href="#drive-structure">雲端目錄</a><a href="#chat">聊天</a><a href="#environment">酒館環境</a><a href="#versions">版本與還原點</a><a href="#permissions">權限</a></nav>
+  </div></header>
+
+  <section class="section" id="drive-structure" aria-labelledby="drive-title"><div class="wrap">
+    <div class="section-heading"><div class="eyebrow">01 / DRIVE STRUCTURE</div><h2 id="drive-title">先看懂雲端硬碟目錄</h2><p>每段聊天有自己的資料夾。聊天原文、角色卡和其他環境項目分開存放；新版本以時間與裝置名稱命名。</p></div>
+    <div class="tree-panel"><div class="tree-top"><span class="tree-dot" aria-hidden="true"></span> Google Drive <span class="tree-top-note">路徑示意</span></div><pre class="drive-tree"><code>{driveTree}</code></pre></div>
+    <div class="tree-notes">
+      <p><strong><span class="inline-code">role_key</span></strong> 是整理後的角色名稱；<strong><span class="inline-code">chat_id</span></strong> 用來辨識同一段聊天。它們決定備份要放進哪個資料夾。</p>
+      <p><strong><span class="inline-code">chat/</span></strong> 放聊天原始 JSONL；五個環境資料夾放個別 JSON 快照。<strong><span class="inline-code">_pre_restore/</span></strong> 放覆蓋本機內容前的備份。</p>
+      <p><strong><span class="inline-code">上傳時間</span></strong> 是建立備份版本時產生的 UTC 時間戳，不一定等於檔案上傳完成的時刻；<strong><span class="inline-code">還原點時間</span></strong> 是覆蓋本機內容前建立資料夾的時間。畫面可能依裝置時區顯示時間。</p>
+    </div>
+  </div></section>
+
+  <section class="section" id="chat" aria-labelledby="chat-title"><div class="wrap">
+    <div class="section-heading"><div class="eyebrow">02 / CHAT</div><h2 id="chat-title">聊天怎麼備份、怎麼讀取</h2><p>聊天的雲端版本是原始 <span class="inline-code">.jsonl</span> 檔，包含對話訊息及相關中繼資料。備份與讀取各有不同入口。</p></div>
+    <div class="chat-identity"><div class="tag">SAME CHAT / SAME ID</div><p><strong>讀取與寫入都以 <span class="inline-code">chat_id</span> 對應同一段聊天。</strong>程式先依 <span class="inline-code">role_key</span> 進入角色目錄，再依 <span class="inline-code">chat_id</span> 找到該聊天的資料夾；上傳寫入其中的 <span class="inline-code">chat/</span>，讀取也從這裡找版本。畫面上的聊天名稱不是唯一的對應依據。</p></div>
+    <div class="process-grid">
+      <article class="process-card">
+        <div class="process-label">寫入雲端 <span aria-hidden="true">↗</span></div><h3>備份目前聊天</h3>
+        <ol><li>讀取目前的本機聊天並檢查內容，建立新的時間／裝置版本。</li><li>依目前聊天的 <span class="inline-code">chat_id</span> 上傳至對應的 <span class="inline-code">chat/</span>，確認雲端檔案，再更新同步資訊。</li><li>若上傳失敗，保留為「待傳」，重新連線後可再嘗試送出。</li></ol>
+        <p class="process-foot">你可以手動上傳。啟用自動同步時，程式會在完成指定訊息數後稍候觸發；預設為每完成 1 則訊息，約 10 秒後開始。它不是定時背景備份。</p>
+      </article>
+      <article class="process-card">
+        <div class="process-label">從雲端讀回 <span aria-hidden="true">↙</span></div><h3>依本機狀態選擇入口</h3>
+        <div class="choice"><strong>本機還沒有這段聊天</strong><p>用「從雲端建立其他聊天」選取雲端聊天後，程式依其 <span class="inline-code">chat_id</span> 讀取對應資料夾的最新 JSONL，建立一份本機聊天。若本機缺角色卡，程式會嘗試讀取該聊天的角色卡備份；其他環境項目不會因此全部套用。</p></div>
+        <div class="choice"><strong>本機已經有這段聊天</strong><p>切到該聊天後用「更新目前聊天」，依目前聊天的 <span class="inline-code">chat_id</span> 找到雲端版本。程式先把本機內容上傳到 <span class="inline-code">_pre_restore/</span>，再用雲端最新版取代本機內容。</p></div>
+      </article>
+    </div>
+    <div class="callout warning"><strong>更新前請核對聊天。</strong>「更新目前聊天」會取代當下這段本機聊天。若雲端沒有可用版本、內容驗證失敗，或等待期間本機聊天已變更，程式會中止更新。</div>
+  </div></section>
+
+  <section class="section" id="environment" aria-labelledby="environment-title"><div class="wrap">
+    <div class="section-heading"><div class="eyebrow">03 / TAVERN ENVIRONMENT</div><h2 id="environment-title">酒館環境與聊天分開處理</h2><p>環境備份依項目類型寫入不同資料夾。你可以選擇要備份或還原的種類，不需要為了讀聊天而一次套用所有設定。</p></div>
+    <div class="env-types" aria-label="可備份的環境類型">
+      <div><span class="inline-code">character/</span><strong>角色卡</strong></div><div><span class="inline-code">world/</span><strong>世界書</strong></div><div><span class="inline-code">persona/</span><strong>玩家人設(Persona)</strong></div><div><span class="inline-code">preset/</span><strong>預設提示詞 (Preset)</strong></div><div><span class="inline-code">regex/</span><strong>正則 (Regex)</strong></div>
+    </div>
+    <div class="grid-2 env-actions">
+      <article class="card"><div class="tag">BACKUP</div><h3>備份選取的項目</h3><p>程式逐項匯出並驗證，將 JSON 快照上傳到各自資料夾。同一批備份使用相同時間戳，但每項有自己的結果；某項失敗，其他項仍可繼續。聊天自動同步不會順便備份這些環境項目。</p></article>
+      <article class="card"><div class="tag">RESTORE</div><h3>讀取各項最新版</h3><p>程式從你選取的每個類型讀取雲端最新版並驗證。套用前，先把該項目前的本機狀態寫入 <span class="inline-code">_pre_restore/</span>；如果這一步失敗，該項就不套用。各項分別顯示成功、失敗或略過。</p></article>
+    </div>
+    <p class="section-note">世界書、玩家人設(Persona)、預設提示詞 (Preset)、正則 (Regex) 等可能是共用設定，還原後也可能影響其他聊天。操作前請確認目前選取的角色與聊天。</p>
+  </div></section>
+
+  <section class="section" id="versions" aria-labelledby="versions-title"><div class="wrap">
+    <div class="section-heading"><div class="eyebrow">04 / VERSION & RECOVERY</div><h2 id="versions-title">版本、待傳與還原點</h2><p>「開始備份」與「雲端已有檔案」是兩個不同狀態。要確認結果，請看操作回報、待傳狀態與雲端版本。</p></div>
+    <div class="grid-3">
+      <article class="card"><div class="tag">01 / VERSIONS</div><h3>新備份產生新版本</h3><p>聊天與各環境類型分開保留版本。預設每個資料夾保留最新 10 版；若改成保留全部版本，就不執行這項舊版清理。清理通常在新備份上傳後執行。</p></article>
+      <article class="card"><div class="tag">02 / PENDING</div><h3>「待傳」還不是備份完成</h3><p>聊天上傳失敗時，工作會留在本機待傳佇列，連線 Google Drive 後會再嘗試送出。看到待傳數量時，請先不要把它當作雲端已有該版本；確認上傳回報與版本清單。</p></article>
+      <article class="card"><div class="tag">03 / PRE-RESTORE</div><h3>覆蓋前保留原狀</h3><p>更新既有聊天或還原環境項目前，程式會把原本的本機內容上傳到 <span class="inline-code">_pre_restore/</span>。這是額外保留的檔案；目前沒有一鍵回復流程，需要回復時請先確認檔案及對應內容。</p></article>
+    </div>
+    <div class="callout">刪除或卸載 TavernRoamer，不會自動刪除已存在 Google Drive 的備份。一般版本清理也不等於清理 <span class="inline-code">_pre_restore/</span> 內的檔案；需要整理時，請在 Drive 檢查後自行處理。</div>
+  </div></section>
+
+  <section class="section" id="permissions" aria-labelledby="permissions-title"><div class="wrap">
+    <div class="section-heading"><div class="eyebrow">05 / ACCESS & PRIVACY</div><h2 id="permissions-title">Google 權限與資料保護</h2></div>
+    <div class="grid-2">
+      <article class="card"><div class="tag">DRIVE SCOPE</div><h3>授權範圍：<span class="inline-code">drive.file</span></h3><p>目前程式要求 Google OAuth 的 <span class="inline-code">drive.file</span> 權限，用來存取應用程式建立或經你授權給它的檔案。它不等於任意瀏覽整個雲端硬碟。手動放進同名資料夾的檔案，不一定會被程式看見；備份請由 TavernRoamer 建立與管理。</p><a class="text-link" href="https://developers.google.com/workspace/drive/api/guides/api-specific-auth">查看 Google 官方權限說明 ↗</a></article>
+      <article class="card"><div class="tag">WEBSITE</div><h3>這個說明網站不接收備份</h3><p>網站不要求 Google 登入、Client Secret、token、聊天內容或角色卡。網址助手只在目前瀏覽器分頁的記憶體中整理你貼入的網址，不會把它上傳或持久保存。</p></article>
+    </div>
+    <div class="grid-2 security-row">
+      <article class="small-panel"><h3>檔案內容與加密</h3><p>聊天以 JSONL、環境快照以 JSON 上傳。程式目前沒有在上傳前額外執行用戶端端對端加密；請依內容敏感度管理 Google 帳號、裝置和 Drive 分享權限。</p></article>
+      <article class="small-panel" id="revoke"><h3>撤銷 Google 授權</h3><p>到 <a class="text-link" href="https://myaccount.google.com/connections">Google 帳戶的第三方連結</a> 找到對應應用程式並移除存取權。之後若要繼續使用，需重新連線。撤銷授權不會刪除 Drive 上已備份的檔案；如需刪除，請自行到 Drive 處理。</p></article>
+    </div>
+    <a class="text-link back-link" href={base + 'how-to-use/'}>返回使用教學 →</a>
+  </div></section>
+</SiteLayout>
+
+<style>
+  .page-hero h1{max-width:720px}.page-jump{display:flex;flex-wrap:wrap;gap:9px;margin-top:32px}.page-jump a{border:1px solid #52604b;color:var(--green);text-decoration:none;padding:9px 12px;border-radius:3px;font-size:12px}.page-jump a:hover{background:#293326}
+  .tree-panel{border:1px solid #52604b;background:#131815;border-radius:4px;overflow:hidden}.tree-top{padding:13px 18px;border-bottom:1px solid var(--line);font:11px var(--mono);color:#d6ddc7;display:flex;align-items:center;gap:9px}.tree-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block}.tree-top-note{margin-left:auto;color:#7f8c7c}.drive-tree{margin:0;padding:22px 24px;overflow-x:auto;color:#c3d1ae;font:12px/1.9 var(--mono);tab-size:3}
+  .tree-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}.tree-notes p{margin:0;color:#b9bdb1;font-size:12px;line-height:1.9}.tree-notes strong{color:var(--cream)}
+  .chat-identity{border:1px solid #667456;background:#283225;padding:20px 24px;margin-bottom:16px}.chat-identity p{color:#cbd5c1;font-size:13px;line-height:1.9;margin:9px 0 0}.chat-identity strong{color:var(--cream)}
+  .process-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.process-card{min-width:0;border:1px solid var(--line);background:var(--panel);padding:26px}.process-label{font:10px var(--mono);letter-spacing:1px;color:var(--gold);display:flex;justify-content:space-between}.process-label span{font-size:20px;line-height:10px}.process-card h3{margin:16px 0}.process-card ol{margin:0;padding-left:20px}.process-card li{padding:0 0 12px 5px;color:#c0c5b8;font-size:13px;line-height:1.8}.process-card li::marker{color:var(--gold);font-family:var(--mono)}.process-foot{border-top:1px solid var(--line);padding-top:16px;margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.85}.choice{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.choice strong{font-size:13px;color:var(--green)}.choice p{font-size:12px;color:#b7bdb0;line-height:1.85;margin:6px 0 0}
+  .env-types{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:18px}.env-types div{min-width:0;border:1px solid var(--line);background:#1b211d;padding:14px;display:grid;gap:9px}.env-types strong{font-size:12px;color:var(--cream)}.env-actions .card{min-width:0}.env-actions h3{margin-top:13px}.section-note{margin:20px 0 0;color:var(--muted);font-size:12px;line-height:1.85}
+  .security-row{margin-top:16px}.small-panel{border-left:2px solid var(--gold);background:#20251f;padding:20px 23px}.small-panel h3{font-size:14px}.small-panel p{margin:0;color:var(--muted);font-size:12px;line-height:1.9}.card .text-link{display:inline-block;margin-top:18px;font-size:12px}.back-link{display:inline-block;margin-top:28px;font-size:13px}
+  @media(max-width:800px){.tree-notes,.process-grid{grid-template-columns:1fr}.env-types{grid-template-columns:repeat(2,minmax(0,1fr))}.drive-tree{font-size:11px;padding:18px 15px}}
+  @media(max-width:420px){.page-jump a{font-size:11px}.env-types{gap:7px}}
+</style>
