@@ -61,3 +61,10 @@ describe('dark theme', () => {
     expect(missing).toEqual([]);
   });
 });
+
+describe('legacy palette', () => {
+  it('no longer defines the old variable names', () => {
+    const legacy = ['cream', 'green', 'gold', 'rust', 'panel', 'panel2', 'ink'];
+    expect(legacy.filter(name => name in light)).toEqual([]);
+  });
+});

@@ -48,14 +48,6 @@
   --bank-3: #ecc79c;
   --bank-4: #f3f1ec;
 
-  /* Legacy names still used by page styles; removed once pages are migrated. */
-  --cream: var(--text);
-  --green: var(--accent);
-  --gold: var(--accent);
-  --rust: var(--warning);
-  --panel: var(--surface);
-  --panel2: var(--surface-2);
-  --ink: var(--on-primary);
 }
 
 :root[data-theme='dark'] {
