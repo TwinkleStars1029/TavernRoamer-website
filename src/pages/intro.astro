@@ -5,7 +5,6 @@ import '../styles/intro.css';
 import CloudSky from '../components/CloudSky.astro';
 import SceneArt from '../components/SceneArt.astro';
 import { luggage } from '../data/luggage';
-import { SCATTER, STAGE_CENTER } from '../lib/intro-scenes';
 
 const routeStops = [
   { number: '01', tag: '目前的酒館', title: '收好這扇窗的行囊' },
@@ -53,10 +52,6 @@ const driveIcon = 'M20 16.5A5 5 0 0 0 18 7a6 6 0 0 0-11.7 1A4.5 4.5 0 0 0 5 17h3
           <div class="intro-scene__art"><SceneArt variant="mobile" /></div>
           <figcaption class="tag">出門 · 雲端酒館</figcaption>
         </figure>
-
-        <svg class="intro-threads" data-intro="threads" viewBox="0 0 540 960">
-          {SCATTER.map(([x, y]) => <line x1={STAGE_CENTER.x + x} y1={STAGE_CENTER.y + y} x2={STAGE_CENTER.x} y2={STAGE_CENTER.y} />)}
-        </svg>
 
         <div class="intro-window" data-intro="window">
           <div class="intro-window__bar"><span class="intro-window__dots"><i></i><i></i><i></i></span><span>一段未完的故事</span></div>

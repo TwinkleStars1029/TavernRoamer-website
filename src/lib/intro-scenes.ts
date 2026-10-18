@@ -69,14 +69,12 @@ export function buildScenes(theme: { dark: Keyframe; light: Keyframe }): IntroSc
       end: 19000,
       steps: [
         { target: intro('window'), at: 12300, duration: 600, easing: 'ease-out', keyframes: [{ opacity: 0, scale: '0.9' }, { opacity: 1, scale: '1' }] },
-        { target: intro('threads'), at: 12800, duration: 400, keyframes: [{ opacity: 0 }, { opacity: 1 }] },
         { target: '.intro-item__name', at: 13000, duration: 250, stagger: 450, count: 6, keyframes: [{ opacity: 0 }, { opacity: 1 }] },
         ...SCATTER.map((offset, index): IntroStep => ({
           target: item(index), at: 13500 + index * 450, duration: 650, easing: 'cubic-bezier(.5,0,.3,1)',
           keyframes: [{ opacity: 1, scale: '1', translate: px(offset) }, { opacity: 0, scale: '0.35', translate: ORIGIN }],
         })),
         { target: intro('dawn'), at: 14000, duration: 4500, easing: 'linear', keyframes: [{ opacity: 0 }, { opacity: 1 }] },
-        { target: intro('threads'), at: 16400, duration: 400, keyframes: [{ opacity: 1 }, { opacity: 0 }] },
         { target: intro('window'), at: 16600, duration: 700, easing: 'ease-in', keyframes: [{ opacity: 1, scale: '1' }, { opacity: 0, scale: '0.4' }] },
         { target: intro('bundle'), at: 17000, duration: 700, easing: 'cubic-bezier(.2,.8,.3,1.2)', keyframes: [{ opacity: 0, scale: '0.5', translate: ORIGIN }, { opacity: 1, scale: '1', translate: ORIGIN }] },
         { target: intro('bundle-glow'), at: 17400, duration: 1000, keyframes: [{ opacity: 0 }, { opacity: 1 }] },
