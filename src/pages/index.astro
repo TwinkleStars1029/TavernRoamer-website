@@ -1,16 +1,10 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import CloudSky from '../components/CloudSky.astro';
+import SceneArt from '../components/SceneArt.astro';
+import { luggage } from '../data/luggage';
 
 const base = import.meta.env.BASE_URL;
-const luggage = [
-  { name: '聊天紀錄', detail: '聊過的話，走過的篇章', side: 'left', row: 1, path: 'M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z' },
-  { name: '角色卡', detail: '陪伴你的角色與模樣', side: 'left', row: 2, path: 'M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2ZM9 9a3 3 0 1 0 6 0 3 3 0 0 0-6 0Zm-1 9v-1a4 4 0 0 1 8 0v1' },
-  { name: '玩家人設', detail: '故事裡的你，連同頭像', side: 'left', row: 3, path: 'M8 7a4 4 0 1 0 8 0 4 4 0 0 0-8 0ZM4 21v-2a8 8 0 0 1 16 0v2' },
-  { name: '世界書', detail: '這個世界的背景與細節', side: 'right', row: 1, path: 'M12 5v16M3 3h5a4 4 0 0 1 4 2 4 4 0 0 1 4-2h5v16h-5a4 4 0 0 0-4 2 4 4 0 0 0-4-2H3V3Z' },
-  { name: '預設提示詞', detail: '為對話選好的設定', side: 'right', row: 2, path: 'M4 7h16M4 17h16M8 4v6M16 14v6' },
-  { name: '正則', detail: '熟悉的文字處理規則', side: 'right', row: 3, path: 'm8 5-5 7 5 7m8-14 5 7-5 7m-3-15-2 16' }
-];
 const benefits = [
   { title: '聊過的，輕輕留存', copy: '每 N 則訊息自動上傳聊天，讓你少一點惦記，多一點專心。', path: 'M20 16.5A5 5 0 0 0 18 7a6 6 0 0 0-11.7 1A4.5 4.5 0 0 0 5 17h3m4 4V11m-4 4 4-4 4 4' },
   { title: '出發前，留下來時的足跡', copy: '更新與還原前，先備份本機內容；備份未完成，就中止對應的覆蓋。', path: 'M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Zm-4-10 3 3 5-6' },
@@ -44,14 +38,7 @@ const benefits = [
         <div class="grid-2 scenes">
           <article class="home-card scene">
             <div class="scene-art" aria-hidden="true">
-              <svg viewBox="0 0 320 160" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle class="scene-wash" cx="160" cy="80" r="70" />
-                <circle cx="259" cy="39" r="14" /><path d="M259 16v-5m0 56v-5m23-23h5m-56 0h5m7-16-4-4m36 36 4 4m-4-36 4-4" />
-                <rect class="device-fill" x="77" y="29" width="166" height="101" rx="7" /><path d="M77 47h166M142 130v18m36-18v18m-48 0h60" />
-                <circle cx="88" cy="38" r="1" /><circle cx="95" cy="38" r="1" /><circle cx="102" cy="38" r="1" />
-                <rect class="bubble-fill" x="94" y="63" width="88" height="16" rx="8" /><rect class="bubble-fill" x="141" y="89" width="84" height="16" rx="8" />
-                <path d="M31 147h258m-234 0v-22m-7 7 7 6 7-12" />
-              </svg>
+              <SceneArt variant="home" />
             </div>
             <div class="scene-copy">
               <div class="tag">在家 · 本機酒館</div>
@@ -61,13 +48,7 @@ const benefits = [
           </article>
           <article class="home-card scene">
             <div class="scene-art" aria-hidden="true">
-              <svg viewBox="0 0 320 160" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle class="scene-wash" cx="160" cy="80" r="70" />
-                <path d="M73 25a17 17 0 1 0 20 22 17 17 0 0 1-20-22ZM245 36v10m-5-5h10m-188 58v8m-4-4h8m193-34v6m-3-3h6" />
-                <rect class="device-fill" x="120" y="10" width="80" height="140" rx="12" /><path d="M143 18h34M148 140h24" />
-                <rect class="bubble-fill" x="132" y="42" width="48" height="18" rx="8" /><rect class="bubble-fill" x="145" y="72" width="43" height="18" rx="8" /><rect class="bubble-fill" x="132" y="102" width="37" height="12" rx="6" />
-                <path d="M55 148h210m-181 0v-19m-7 5 7 5 7-11m137 20v-23m-7 8 7 5 7-12" />
-              </svg>
+              <SceneArt variant="mobile" />
             </div>
             <div class="scene-copy">
               <div class="tag">出門 · 雲端酒館</div>
@@ -372,26 +353,6 @@ const benefits = [
     height: 128px;
     margin-bottom: 16px;
     color: var(--accent);
-  }
-
-  .scene-art svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  .scene-wash {
-    fill: var(--accent-soft);
-    stroke: none;
-    opacity: 0.65;
-  }
-
-  .device-fill {
-    fill: var(--surface);
-  }
-
-  .bubble-fill {
-    fill: var(--surface-2);
-    stroke: none;
   }
 
   .scene h3 {
