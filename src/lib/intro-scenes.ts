@@ -12,7 +12,7 @@ export const SCATTER: ReadonlyArray<Offset> = [[-175, -140], [165, -150], [-195,
 /** Scene 4: the items unpack around the next chat window, in the home page's left/right rows. */
 export const RING: ReadonlyArray<Offset> = luggage.map(item => [item.side === 'left' ? -190 : 190, (item.row - 2) * 95] as const);
 /** Scene 4: the bundle rides from stop 01 (bottom) up to stop 03. */
-export const ROUTE_OFFSETS: ReadonlyArray<Offset> = [[-150, 100], [-150, -20], [-150, -140]];
+export const ROUTE_OFFSETS: ReadonlyArray<Offset> = [[-206, 100], [-206, -20], [-206, -140]];
 
 const px = ([x, y]: Offset) => `${x}px ${y}px`;
 const ORIGIN = '0px 0px';
