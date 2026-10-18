@@ -1,0 +1,126 @@
+---
+import discordIcon from '../assets/contact/discord.svg?raw';
+import threadsIcon from '../assets/contact/threads.svg?raw';
+const base = import.meta.env.BASE_URL;
+const checklist = ['錯誤訊息原文或截圖', 'SillyTavern／酒館助手版本', '酒館 origin', '操作步驟、能否重現'];
+---
+<section class="issue-report" id="回報問題" aria-labelledby="report-title">
+  <div class="report-heading">
+    <div class="eyebrow">NEED A HAND?</div>
+    <h2 id="report-title">仍然卡住？聯絡開發者</h2>
+  </div>
+  <div class="report-layout">
+    <div class="report-preparation">
+      <h3>回報前先準備</h3>
+      <ul class="report-checklist">
+        {checklist.map(item => <li><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="m8 12 3 3 5-6" /></svg><span>{item}</span></li>)}
+      </ul>
+      <p class="privacy-notice">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" /></svg>
+        <span>分享前遮蔽 email、Client ID、token、聊天內容與私人網址；Client Secret 永遠不要貼出來。</span>
+      </p>
+    </div>
+    <article class="contact-card" aria-labelledby="developer-name">
+      <header class="contact-identity">
+        <img class="contact-avatar" src={`${base}images/esther-avatar.png`} alt="Esther 的頭像" width="112" height="112" loading="lazy" />
+        <div><h3 id="developer-name">Esther</h3><p>TavernRoamer 開發者</p></div>
+      </header>
+      <a class="contact-row" href="https://discord.com/users/698030497871298580" target="_blank" rel="noopener noreferrer" aria-label="Discord，最快回覆（另開分頁）">
+        <span class="contact-icon brand-icon" set:html={discordIcon} />
+        <span class="contact-description"><span class="contact-title">Discord</span><span class="contact-subtitle">最快回覆</span></span>
+        <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
+      </a>
+      <a class="contact-row" href="https://www.threads.com/@esther1ooo" target="_blank" rel="noopener noreferrer" aria-label="Threads，@esther1ooo（另開分頁）">
+        <span class="contact-icon brand-icon" set:html={threadsIcon} />
+        <span class="contact-description"><span class="contact-title">Threads</span><span class="contact-subtitle">@esther1ooo</span></span>
+        <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
+      </a>
+      <div class="contact-row email-row">
+        <svg class="contact-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" /><path d="m3 6 9 7 9-7" /></svg>
+        <a class="contact-description email-link" href="mailto:Esther.huang1029@gmail.com"><span class="contact-title">Email</span><span class="contact-subtitle">Esther.huang1029<wbr />@gmail.com</span></a>
+        <button class="copy-email" type="button" aria-label="複製 Email" title="複製 Email" data-copy-email="Esther.huang1029@gmail.com">
+          <svg class="copy-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" /><path d="M16 4H6a2 2 0 0 0-2 2v10" /></svg>
+          <svg class="copied-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+        </button>
+      </div>
+      <p class="copy-feedback" role="status" aria-live="polite" data-copy-feedback></p>
+    </article>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach(button => {
+    let resetTimer: ReturnType<typeof setTimeout>;
+    button.addEventListener('click', async () => {
+      const feedback = button.closest('.contact-card')?.querySelector<HTMLElement>('[data-copy-feedback]');
+      clearTimeout(resetTimer);
+      try {
+        await navigator.clipboard.writeText(button.dataset.copyEmail ?? '');
+        button.dataset.copied = 'true';
+        button.setAttribute('aria-label', 'Email 已複製');
+        button.title = 'Email 已複製';
+        if (feedback) feedback.textContent = 'Email 已複製';
+        resetTimer = setTimeout(() => {
+          delete button.dataset.copied;
+          button.setAttribute('aria-label', '複製 Email');
+          button.title = '複製 Email';
+          if (feedback) feedback.textContent = '';
+        }, 2500);
+      } catch {
+        if (feedback) feedback.textContent = '無法自動複製，請選取 Email 手動複製。';
+      }
+    });
+  });
+</script>
+
+<style>
+  .issue-report { --notice-bg: #f6dfaa; --notice-text: #775015; margin-top: 55px; }
+  .report-heading { margin-bottom: 36px; }
+  .report-heading h2 { margin: 14px 0 0; }
+  .report-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; gap: 36px; }
+  .report-preparation h3 { margin: 0 0 20px; font-size: var(--faq-subheading-size, 16px); font-weight: 700; line-height: 1.5; }
+  .report-checklist { display: grid; gap: 18px; padding: 0; margin: 0; list-style: none; }
+  .report-checklist li { display: flex; align-items: baseline; gap: 12px; color: var(--muted); font-size: var(--faq-body-size, 14px); line-height: 1.8; }
+  .report-checklist svg { flex-shrink: 0; align-self: flex-start; margin-top: 4px; }
+  .privacy-notice { display: flex; align-items: flex-start; gap: 10px; margin: 28px 0 0; padding: 20px; border-radius: 14px; background: var(--notice-bg); color: var(--notice-text); font-size: var(--faq-body-size, 14px); line-height: 1.8; }
+  .privacy-notice svg { flex-shrink: 0; margin-top: 4px; }
+  .contact-card { position: relative; min-width: 0; padding: 28px 28px 32px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+  .contact-identity { display: flex; align-items: center; gap: 20px; padding-bottom: 24px; }
+  .contact-avatar { display: block; flex-shrink: 0; width: 112px; height: 112px; border-radius: 50%; object-fit: cover; }
+  .contact-identity h3 { margin: 0 0 4px; font-size: 20px; line-height: 1.5; font-weight: 500; }
+  .contact-identity p { margin: 0; color: var(--muted); font-size: var(--faq-small-size, 12px); line-height: 1.6; }
+  .contact-row { display: grid; grid-template-columns: 26px minmax(0, 1fr) 32px; align-items: center; gap: 16px; min-height: 76px; padding: 14px 0; border-top: 1px solid var(--line); color: var(--text); text-decoration: none; }
+  .contact-description { display: grid; gap: 3px; min-width: 0; }
+  .contact-title { font-size: var(--faq-body-size, 14px); font-weight: 500; line-height: 1.8; }
+  .contact-subtitle { color: var(--muted); font-size: var(--faq-small-size, 12px); line-height: 1.6; overflow-wrap: anywhere; }
+  .contact-icon { display: block; width: 26px; height: 26px; }
+  .brand-icon :global(svg) { display: block; width: 100%; height: 100%; }
+  .contact-arrow { justify-self: center; color: var(--muted); }
+  a.contact-row:hover .contact-title, .email-link:hover .contact-title { color: var(--accent); }
+  a.contact-row:hover .contact-arrow { color: var(--accent); }
+  .email-link { color: inherit; text-decoration: none; }
+  .email-row { grid-template-columns: 26px minmax(0, 1fr) 44px; gap: 12px; padding-bottom: 10px; }
+  .copy-email { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--muted); cursor: pointer; }
+  .copy-email:hover { background: var(--surface-2); color: var(--text); }
+  .copied-icon, .copy-email[data-copied] .copy-icon { display: none; }
+  .copy-email[data-copied] .copied-icon { display: block; color: var(--success); }
+  .copy-feedback { position: absolute; bottom: 10px; left: 28px; right: 28px; margin: 0; color: var(--muted); font-size: var(--faq-small-size, 12px); line-height: 1.6; }
+  .contact-card a:focus-visible, .copy-email:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+  :global(:root[data-theme='dark']) .issue-report { --notice-bg: #3a2f22; --notice-text: #edc78c; }
+  @media (max-width: 820px) {
+    .report-layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .contact-card { width: 100%; }
+  }
+  @media (max-width: 420px) {
+    .report-heading { margin-bottom: 28px; }
+    .report-checklist li { gap: 10px; }
+    .privacy-notice { padding: 16px; }
+    .contact-card { padding: 20px 20px 32px; }
+    .contact-identity { gap: 16px; }
+    .contact-avatar { width: 88px; height: 88px; }
+    .contact-row { gap: 12px; }
+    .email-row { grid-template-columns: 24px minmax(0, 1fr) 44px; gap: 8px; }
+    .contact-icon { width: 24px; height: 24px; }
+    .copy-feedback { left: 20px; right: 20px; }
+  }
+</style>

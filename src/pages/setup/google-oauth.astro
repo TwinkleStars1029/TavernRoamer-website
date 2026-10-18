@@ -4,30 +4,30 @@ import CloudSky from '../../components/CloudSky.astro';
 import OAuthScreenshots from '../../components/OAuthScreenshots.astro';
 import PageChapters from '../../components/PageChapters.astro';
 const chapters = [
-  { href: '#oauth-project', number: '00', label: '建立 Google Cloud 專案' },
-  { href: '#oauth-drive-api', number: '01', label: '啟用 Drive API' },
-  { href: '#oauth-branding', number: '02', label: '設定同意畫面' },
-  { href: '#oauth-audience', number: '03', label: '選擇使用者與測試狀態' },
-  { href: '#oauth-scope', number: '04', label: '加入 Drive 權限' },
-  { href: '#oauth-client', number: '05', label: '建立 Web Client' },
-  { href: '#oauth-connect', number: '06', label: '取得 Client ID' },
-  { href: '#oauth-cross-device', number: '07', label: '在酒館連線' },
-  { href: '#origin-helper', number: '08', label: '酒館網址格式助手' },
-  { href: '#official-docs', number: '09', label: '官方文件' }
+  { href: '#oauth-project', number: '01', label: '建立 Google Cloud 專案' },
+  { href: '#oauth-drive-api', number: '02', label: '啟用 Drive API' },
+  { href: '#oauth-branding', number: '03', label: '設定同意畫面' },
+  { href: '#oauth-audience', number: '04', label: '選擇使用者與測試狀態' },
+  { href: '#oauth-scope', number: '05', label: '加入 Drive 權限' },
+  { href: '#oauth-client', number: '06', label: '建立 Web Client' },
+  { href: '#oauth-connect', number: '07', label: '取得 Client ID' },
+  { href: '#oauth-cross-device', number: '08', label: '在酒館連線' },
+  { href: '#origin-helper', number: '09', label: '酒館網址格式助手' },
+  { href: '#official-docs', number: '10', label: '官方文件' }
 ];
 ---
 <SiteLayout title="Google OAuth 申請與設定" description="完整建立 Google Cloud 專案、Drive API、OAuth 同意畫面與 Web Client，並以本機網址助手整理酒館 origin。" active="oauth">
-  <header class="page-hero sky-scope"><CloudSky variant="compact" /><div class="wrap"><div class="page-kicker">FIELD GUIDE / 02</div><h1>替你的酒館備好 Google Drive 通行證</h1><p class="lead">你在自己的 Google Cloud 專案建立 OAuth Client，TavernRoamer 以瀏覽器 token flow 取得授權。網站不登入 Google，也不接收你的 Client ID、Client Secret 或 token。</p><p class="muted" style="font-size:11px">官方文件最後核對：2026 年 9 月 28 日。Google Cloud 介面可能更新；依欄位含義辨認即可。</p></div></header>
+  <header class="page-hero sky-scope"><CloudSky variant="compact" /><div class="wrap"><div class="page-kicker">FIELD GUIDE / 02</div><h1>替你的酒館備好通行證</h1><p class="lead">讓故事在自己的雲端，有一個歸處。這份指南會陪你完成 Google 設定，讓 TavernRoamer 能把聊天與素材備份到你的 Google Drive。</p><p class="muted" style="font-size:11px">官方文件最後核對：2026 年 9 月 28 日。Google Cloud 介面可能更新；依欄位含義辨認即可。</p></div></header>
   <PageChapters chapters={chapters} label="Google 設定章節">
-  <section class="section"><div class="callout">本指南依 TavernRoamer 程式使用的 Google Identity Services token model 編寫，要求 scope 為 <span class="inline-code">https://www.googleapis.com/auth/drive.file</span>。這是瀏覽器端授權，不使用 Client Secret，也不需為目前這個流程設定 redirect URI。</div><div class="steps" style="margin-top:24px">
-    <article class="step"><h3 id="oauth-project">建立或選取 Google Cloud 專案</h3><p><strong>位置：</strong><a class="text-link" href="https://console.cloud.google.com/">Google Cloud Console</a>。建立專用專案（例如 TavernRoamer personal），或選取你要使用的專案。</p><p>記得確認 Console 頂端目前選中的是正確專案。專案名稱只是方便辨識，不會影響本機操作。</p><p class="evidence">完成後：Console 顯示你選定的專案。</p><OAuthScreenshots images={[1,2]} /></article>
-    <article class="step"><h3 id="oauth-drive-api">啟用 Google Drive API</h3><p><strong>位置：</strong>API 和服務 → 程式庫，搜尋 Google Drive API，開啟並按「啟用」。</p><p class="evidence">完成後：API 狀態顯示已啟用。若沒有啟用，後續 Drive 請求會失敗。</p><OAuthScreenshots images={[3,4,5]} /></article>
-    <article class="step"><h3 id="oauth-branding">設定 OAuth 同意畫面（Branding）</h3><p><strong>位置：</strong>Google Auth Platform → Branding。第一次設定時選 Get started，填應用程式名稱、使用者支援電子郵件與開發者聯絡電子郵件，完成政策確認。</p><p>這些資訊會顯示在 Google 授權流程。只填你願意讓授權使用者看到的資料。</p><p class="evidence">完成後：Branding 必填欄位已完成並儲存。</p><OAuthScreenshots images={[6,7,8,9]} /></article>
-    <article class="step"><h3 id="oauth-audience">Audience：選擇使用者類型及測試狀態</h3><p><strong>個人帳號自用：</strong>通常選 External，再維持 Testing，並將實際授權帳號加入 Test users。Workspace 組織內部使用可評估 Internal；只有隸屬組織的使用者能授權，管理員政策也可能限制存取。</p><p>Testing 最多 100 位測試使用者。官方說測試使用者授權通常在 7 天後到期；只有純基本身分 scopes 例外，TavernRoamer 要求 drive.file，不符合該例外，因此可能需要重新授權。Access token 本身也有較短期限，屬不同機制。</p><p>自用測試和公開提供給其他使用者是不同情境。轉 Production 可能涉及驗證要求；先閱讀 Google 審核規定，不代表必須或一定能免審核。</p><p class="evidence">完成後：Audience 顯示目標使用者類型；測試帳號已加入測試清單。</p></article>
-    <article class="step"><h3 id="oauth-scope">Data Access：加入 Drive 權限</h3><p><strong>位置：</strong>Google Auth Platform → Data Access → Add or remove scopes。搜尋 Google Drive API，找到並勾選 <span class="inline-code">https://www.googleapis.com/auth/drive.file</span>，按 Update，再儲存變更。</p><p>這項權限不是讀取整個 Drive；它涵蓋由這個 app 建立或使用者授權給 app 的特定檔案。不要額外添加較廣泛的 Drive 權限，也不需把 Client Secret 貼入腳本。</p><p class="evidence">完成後：Data Access 中列出 drive.file，並已儲存。</p><OAuthScreenshots images={[10]} /></article>
-    <article class="step"><h3 id="oauth-client">建立 Web application OAuth Client</h3><p><strong>位置：</strong>Google Auth Platform → Clients → Create client，Application type 選 Web application。</p><p>在 Authorized JavaScript origins 中填入每個實際使用酒館的 origin。只包含協定、主機及必要的 port；不要加路徑、query 或 fragment。先用下方助手整理網址。</p><p>目前這個 GIS token flow 以 JavaScript callback 回傳 token，無需設定 Authorized redirect URIs。建立後複製 Client ID；Client Secret 不要貼到腳本或網站。</p><p class="evidence">完成後：Clients 清單有 Web application client，已登錄所有將使用的酒館 origins。</p><OAuthScreenshots images={[12,13,14]} /></article>
-    <article class="step"><h3 id="oauth-connect">確認設定並取得 Client ID</h3><p><strong>位置：</strong>Google Auth Platform → Data Access 與 Clients。確認 <span class="inline-code">drive.file</span> 權限已儲存，Web application client 的 JavaScript origins 也涵蓋每個要使用的酒館網址。</p><p>建立用戶端後，從完成畫面複製 Client ID，供 TavernRoamer 設定使用。Client Secret 不需要貼到酒館腳本或本網站。</p><p class="evidence">完成後：已取得 Client ID，且確認權限與來源網址正確。</p><OAuthScreenshots images={[11,12,13,14,15]} /></article>
-    <article class="step"><h3 id="oauth-cross-device">在 TavernRoamer 連線 Google Drive</h3><p><strong>位置：</strong>TavernRoamer 設定 → Google Client ID → 儲存設定 → 連線 Google Drive。在 Google 帳號視窗選擇已加入測試使用者的帳號，依畫面完成授權。</p><p>若 Google 顯示未驗證警告，先確認這是自己的測試專案，再自行判斷是否繼續。另一台裝置也要填入同一個 Client ID，並用可存取該 Drive 檔案的帳號連線。</p><p class="evidence">完成後：TavernRoamer 面板顯示 Drive 已連線。跨裝置備份可見性仍需用兩台酒館實測。</p><OAuthScreenshots images={[16,17,18,19,20]} /></article>
+  <section class="section"><div class="callout">本指南依 TavernRoamer 程式使用的 Google Identity Services token model 編寫，要求 scope 為 <span class="inline-code">https://www.googleapis.com/auth/drive.file</span>。這是瀏覽器端授權，不使用 Client Secret，也不需為目前這個流程設定 redirect URI。</div><div class="oauth-steps">
+    <article class="oauth-step" id="oauth-project"><div class="step-heading"><span class="step-number" aria-hidden="true">01</span><h2>建立或選取 Google Cloud 專案</h2></div><p><strong>位置：</strong><a class="text-link" href="https://console.cloud.google.com/">Google Cloud Console</a>。建立專用專案（例如 TavernRoamer personal），或選取你要使用的專案。</p><p>記得確認 Console 頂端目前選中的是正確專案。專案名稱只是方便辨識，不會影響本機操作。</p><p class="evidence">完成後：Console 顯示你選定的專案。</p><OAuthScreenshots images={[1,2]} /></article>
+    <article class="oauth-step" id="oauth-drive-api"><div class="step-heading"><span class="step-number" aria-hidden="true">02</span><h2>啟用 Google Drive API</h2></div><p><strong>位置：</strong>API 和服務 → 程式庫，搜尋 Google Drive API，開啟並按「啟用」。</p><p class="evidence">完成後：API 狀態顯示已啟用。若沒有啟用，後續 Drive 請求會失敗。</p><OAuthScreenshots images={[3,4,5]} /></article>
+    <article class="oauth-step" id="oauth-branding"><div class="step-heading"><span class="step-number" aria-hidden="true">03</span><h2>設定 OAuth 同意畫面（Branding）</h2></div><p><strong>位置：</strong>Google Auth Platform → Branding。第一次設定時選 Get started，填應用程式名稱、使用者支援電子郵件與開發者聯絡電子郵件，完成政策確認。</p><p>這些資訊會顯示在 Google 授權流程。只填你願意讓授權使用者看到的資料。</p><p class="evidence">完成後：Branding 必填欄位已完成並儲存。</p><OAuthScreenshots images={[6,7,8,9]} /></article>
+    <article class="oauth-step" id="oauth-audience"><div class="step-heading"><span class="step-number" aria-hidden="true">04</span><h2>Audience：選擇使用者類型及測試狀態</h2></div><p><strong>個人帳號自用：</strong>通常選 External，再維持 Testing，並將實際授權帳號加入 Test users。Workspace 組織內部使用可評估 Internal；只有隸屬組織的使用者能授權，管理員政策也可能限制存取。</p><p>Testing 最多 100 位測試使用者。官方說測試使用者授權通常在 7 天後到期；只有純基本身分 scopes 例外，TavernRoamer 要求 drive.file，不符合該例外，因此可能需要重新授權。Access token 本身也有較短期限，屬不同機制。</p><p>自用測試和公開提供給其他使用者是不同情境。轉 Production 可能涉及驗證要求；先閱讀 Google 審核規定，不代表必須或一定能免審核。</p><p class="evidence">完成後：Audience 顯示目標使用者類型；測試帳號已加入測試清單。</p></article>
+    <article class="oauth-step" id="oauth-scope"><div class="step-heading"><span class="step-number" aria-hidden="true">05</span><h2>Data Access：加入 Drive 權限</h2></div><p><strong>位置：</strong>Google Auth Platform → Data Access → Add or remove scopes。搜尋 Google Drive API，找到並勾選 <span class="inline-code">https://www.googleapis.com/auth/drive.file</span>，按 Update，再儲存變更。</p><p>這項權限不是讀取整個 Drive；它涵蓋由這個 app 建立或使用者授權給 app 的特定檔案。不要額外添加較廣泛的 Drive 權限，也不需把 Client Secret 貼入腳本。</p><p class="evidence">完成後：Data Access 中列出 drive.file，並已儲存。</p><OAuthScreenshots images={[10]} /></article>
+    <article class="oauth-step" id="oauth-client"><div class="step-heading"><span class="step-number" aria-hidden="true">06</span><h2>建立 Web application OAuth Client</h2></div><p><strong>位置：</strong>Google Auth Platform → Clients → Create client，Application type 選 Web application。</p><p>在 Authorized JavaScript origins 中填入每個實際使用酒館的 origin。只包含協定、主機及必要的 port；不要加路徑、query 或 fragment。先用下方助手整理網址。</p><p>目前這個 GIS token flow 以 JavaScript callback 回傳 token，無需設定 Authorized redirect URIs。建立後複製 Client ID；Client Secret 不要貼到腳本或網站。</p><p class="evidence">完成後：Clients 清單有 Web application client，已登錄所有將使用的酒館 origins。</p><OAuthScreenshots images={[12,13,14]} /></article>
+    <article class="oauth-step" id="oauth-connect"><div class="step-heading"><span class="step-number" aria-hidden="true">07</span><h2>確認設定並取得 Client ID</h2></div><p><strong>位置：</strong>Google Auth Platform → Data Access 與 Clients。確認 <span class="inline-code">drive.file</span> 權限已儲存，Web application client 的 JavaScript origins 也涵蓋每個要使用的酒館網址。</p><p>建立用戶端後，從完成畫面複製 Client ID，供 TavernRoamer 設定使用。Client Secret 不需要貼到酒館腳本或本網站。</p><p class="evidence">完成後：已取得 Client ID，且確認權限與來源網址正確。</p><OAuthScreenshots images={[11,12,13,14,15]} /></article>
+    <article class="oauth-step" id="oauth-cross-device"><div class="step-heading"><span class="step-number" aria-hidden="true">08</span><h2>在 TavernRoamer 連線 Google Drive</h2></div><p><strong>位置：</strong>TavernRoamer 設定 → Google Client ID → 儲存設定 → 連線 Google Drive。在 Google 帳號視窗選擇已加入測試使用者的帳號，依畫面完成授權。</p><p>若 Google 顯示未驗證警告，先確認這是自己的測試專案，再自行判斷是否繼續。另一台裝置也要填入同一個 Client ID，並用可存取該 Drive 檔案的帳號連線。</p><p class="evidence">完成後：TavernRoamer 面板顯示 Drive 已連線。跨裝置備份可見性仍需用兩台酒館實測。</p><OAuthScreenshots images={[16,17,18,19,20]} /></article>
   </div></section>
   <section class="section" id="origin-helper"><div class="section-heading"><div class="eyebrow">LOCAL TOOL / NO UPLOAD</div><h2>酒館網址格式助手</h2><p>輸入你實際開啟 SillyTavern 的網址，轉成 Google 要求的 Authorized JavaScript origin。每行一個網址，可貼入本機、雲端或其他裝置的網址。</p></div><div class="toolbox"><label for="origin-input" class="tag">酒館完整網址（每行一筆）</label><textarea id="origin-input" rows="4" spellcheck="false" placeholder="http://127.0.0.1:8000/\nhttps://tavern.example.com/path?view=chat"></textarea><div class="button-row"><button class="button" id="origin-convert" type="button">整理來源網址 →</button><button class="button secondary copy" id="origin-copy" type="button" disabled>複製 origins</button></div><div id="origin-output" class="tool-output" aria-live="polite">結果只會在這個瀏覽器分頁內計算，不會上傳或儲存。</div><label class="tag" for="origin-result" style="display:block;margin-top:18px">可選取的純 origin 結果</label><textarea id="origin-result" rows="3" readonly aria-label="純 origin 結果"></textarea><div id="origin-feedback" class="tool-note" role="status" aria-live="polite"></div><p class="tool-note">不會默默補協定；localhost 與 127.0.0.1 是不同 origin。格式正確不代表 Google 已接受或 OAuth 已連線。若瀏覽器不允許剪貼簿，可在純 origin 結果框中手動選取複製。</p></div><div class="grid-2" style="margin-top:32px"><div class="card"><h3>整理前</h3><code class="code">http://127.0.0.1:8000/</code><p>有斜線結尾也可以。</p></div><div class="card"><h3>整理後</h3><code class="code">http://127.0.0.1:8000</code><p>保留 port，移除路徑及其他部分。</p></div></div><div class="callout warning">HTTP 的 localhost 與 loopback 範例可用於本機開發。非本機 HTTP origins 請先核對 Google 現行來源安全規則；建議遠端環境採 HTTPS。</div></section>
   <section class="section" id="official-docs"><h2>官方文件</h2><ul class="list-clean"><li><a class="text-link" href="https://developers.google.com/workspace/guides/configure-oauth-consent">設定 OAuth consent screen 與 scopes</a></li><li><a class="text-link" href="https://support.google.com/cloud/answer/15549945?hl=zh-Hant">Google Cloud：管理 app audience、Testing 狀態及期限</a></li><li><a class="text-link" href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">建立 Google API Client ID 與 Authorized JavaScript origins</a></li><li><a class="text-link" href="https://developers.google.com/identity/oauth2/web/guides/use-token-model">Google Identity Services token model</a></li><li><a class="text-link" href="https://developers.google.com/workspace/drive/api/guides/api-specific-auth">Google Drive API scope 說明</a></li><li><a class="text-link" href="https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow">JavaScript origins 格式規則</a></li></ul></section>
@@ -81,3 +81,19 @@ const chapters = [
     });
   </script>
 </SiteLayout>
+
+<style>
+  .oauth-steps { margin-top:24px; }
+  .oauth-step { padding:36px 0 40px;border-top:1px solid var(--line); }
+  .step-heading { display:flex;gap:16px;align-items:baseline;margin-bottom:22px; }
+  .step-heading h2 { margin:0;min-width:0;font-size:clamp(22px,2.5vw,28px);line-height:1.5;text-wrap:balance;overflow-wrap:anywhere; }
+  .step-number { flex-shrink:0;color:var(--accent);font:500 15px var(--mono); }
+  .oauth-step p { margin-bottom:18px;color:var(--muted);font-size:16px;line-height:1.9;overflow-wrap:anywhere; }
+  .oauth-step strong { color:var(--text); }
+  .oauth-step .evidence { color:var(--success);font-size:14px; }
+  .oauth-step p:last-child { margin-bottom:0; }
+  @media(max-width:600px) {
+    .oauth-step { padding:28px 0 32px; }
+    .step-heading { gap:12px;margin-bottom:18px; }
+  }
+</style>

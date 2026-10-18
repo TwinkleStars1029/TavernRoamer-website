@@ -1,0 +1,30 @@
+.faq-page {
+  --faq-body-size: 14px;
+  --faq-small-size: 12px;
+  --faq-subheading-size: 16px;
+  --faq-heading-size: 24px;
+  font-size: var(--faq-body-size);
+  line-height: 1.8;
+}
+
+.faq-page h1 {
+  font-size: clamp(30px, 4vw, 42px);
+}
+
+.faq-page h2 {
+  font-size: var(--faq-heading-size);
+}
+
+.faq-page h3 {
+  font-size: var(--faq-subheading-size);
+  line-height: 1.5;
+}
+
+.faq-page .lead,
+.faq-page .faq-list summary,
+.faq-page .faq-list details p,
+.faq-page .text-link {
+  font-size: var(--faq-body-size);
+  line-height: 1.8;
+}
+

@@ -14,10 +14,10 @@ const { title, description, active = '' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const nav = [
   { href: base, label: '認識 Roamer', key: 'home' },
-  { href: `${base}interface/`, label: '介面介紹', key: 'interface' },
   { href: `${base}install/`, label: '安裝指南', key: 'install' },
   { href: `${base}setup/google-oauth/`, label: 'Google 設定', key: 'oauth' },
   { href: `${base}how-to-use/`, label: '使用教學', key: 'how-to-use' },
+  { href: `${base}interface/`, label: '介面介紹', key: 'interface' },
   { href: `${base}data-and-permissions/`, label: '資料與權限', key: 'data-and-permissions' },
   { href: `${base}faq/`, label: '常見問題', key: 'faq' }
 ];
@@ -54,9 +54,9 @@ const nav = [
     <main id="main-content" tabindex="-1"><slot /></main>
     <footer class="footer">
       <div class="footer-inner">
-        <div><a class="brand footer-brand" href={base}><span class="brand-mark">✳</span><span>Tavern<span class="brand-soft">Roamer</span></span></a><p>把故事收好，下一段旅程再接著走。</p></div>
-        <div class="footer-links"><a href={`${base}changelog/`}>版本與來源</a><span>提供 main 分支腳本</span><a href={`${base}faq/#回報問題`}>排錯與回報準備</a></div>
-        <small class="footer-note">腳本安裝方式見安裝指南 · 本網站不會要求你的 Client Secret、token 或聊天資料。</small>
+        <div><a class="brand footer-brand" href={base}><span class="brand-mark">✳</span><span>Tavern<span class="brand-soft">Roamer</span></span></a><p>把故事放在雲端，陪你到各處展開新的章節...</p></div>
+        <div class="footer-links"><a href={`${base}changelog/`}>版本與來源</a><a href={`${base}faq/#回報問題`}>錯誤回報</a></div>
+        
       </div>
     </footer>
     <script>
