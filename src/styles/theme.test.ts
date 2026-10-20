@@ -68,3 +68,19 @@ describe('legacy palette', () => {
     expect(legacy.filter(name => name in light)).toEqual([]);
   });
 });
+
+describe('typography scale', () => {
+  it('keeps readable text on the shared 12/14/16/18px roles', () => {
+    expect(light['type-caption']).toBe('12px');
+    expect(light['type-supporting']).toBe('14px');
+    expect(light['type-body']).toBe('16px');
+    expect(light['type-subheading']).toBe('18px');
+  });
+
+  it('defines shared responsive heading roles', () => {
+    expect(light['type-step-title']).toContain('clamp(');
+    expect(light['type-section-title']).toContain('clamp(');
+    expect(light['type-page-title']).toContain('clamp(');
+    expect(light['type-display']).toContain('clamp(');
+  });
+});

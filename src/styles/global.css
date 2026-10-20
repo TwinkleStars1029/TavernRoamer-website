@@ -18,6 +18,8 @@ body {
   margin: 0;
   min-width: 320px;
   font-family: var(--font-sans);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -128,7 +130,7 @@ body {
 .footer-links a {
   color: var(--muted);
   text-decoration: none;
-  font-size: 13px;
+  font-size: var(--type-supporting);
   transition: color 0.2s;
 }
 
@@ -182,7 +184,7 @@ body {
 
 .footer p {
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--type-supporting);
 }
 
 .footer-links {
@@ -190,13 +192,13 @@ body {
   gap: 22px;
   align-items: center;
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--type-supporting);
 }
 
 .footer-note {
   grid-column: 1 / -1;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--type-caption);
   border-top: 1px solid var(--line);
   padding-top: 16px;
 }
@@ -222,7 +224,7 @@ h2 {
 }
 
 h1 {
-  font-size: clamp(36px, 5.6vw, 62px);
+  font-size: var(--type-page-title);
   font-weight: 900;
   line-height: 1.25;
   letter-spacing: 0.5px;
@@ -230,7 +232,7 @@ h1 {
 }
 
 h2 {
-  font-size: clamp(25px, 3.2vw, 36px);
+  font-size: var(--type-section-title);
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: 0.3px;
@@ -238,7 +240,8 @@ h2 {
 }
 
 h3 {
-  font-size: 17px;
+  font-size: var(--type-subheading);
+  line-height: 1.5;
   color: var(--text);
   margin-bottom: 10px;
 }
@@ -249,7 +252,7 @@ h3 {
   align-items: center;
   gap: 10px;
   color: var(--accent);
-  font: 500 10px var(--mono);
+  font: 500 var(--type-caption)/1.5 var(--mono);
   letter-spacing: 2.5px;
   text-transform: uppercase;
 }
@@ -263,8 +266,8 @@ h3 {
 }
 
 .lead {
-  font-size: 16px;
-  line-height: 1.95;
+  font-size: var(--type-body);
+  line-height: 1.9;
   color: var(--muted);
   max-width: 700px;
 }
@@ -291,7 +294,8 @@ h3 {
 }
 
 .section-heading p {
-  line-height: 1.8;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
   color: var(--muted);
 }
 
@@ -312,7 +316,7 @@ h3 {
   border: 1px solid transparent;
   border-radius: 3px;
   font-weight: 700;
-  font-size: 13px;
+  font-size: var(--type-supporting);
   letter-spacing: 0.3px;
   text-decoration: none;
 }
@@ -342,8 +346,8 @@ h3 {
 
 .card p {
   color: var(--muted);
-  font-size: 13px;
-  line-height: 1.8;
+  font-size: var(--type-supporting);
+  line-height: var(--leading-body);
   margin-bottom: 0;
 }
 
@@ -367,7 +371,7 @@ h3 {
 
 .tag {
   color: var(--accent);
-  font: 500 10px var(--mono);
+  font: 500 var(--type-caption)/1.5 var(--mono);
   letter-spacing: 1.3px;
 }
 
@@ -378,8 +382,8 @@ h3 {
   border-left: 3px solid var(--accent);
   border-radius: 0 6px 6px 0;
   color: var(--text);
-  font-size: 13px;
-  line-height: 1.8;
+  font-size: var(--type-supporting);
+  line-height: var(--leading-body);
 }
 
 .callout.warning {
@@ -420,7 +424,7 @@ h3 {
 }
 
 .page-hero h1 {
-  font-size: clamp(34px, 5vw, 54px);
+  font-size: var(--type-page-title);
 }
 
 .hero-grid {
@@ -464,12 +468,12 @@ h3 {
   left: 23px;
   top: 24px;
   color: var(--accent);
-  font: 500 13px var(--mono);
+  font: 500 var(--type-caption)/1.5 var(--mono);
 }
 
 .step p,
 .step li {
-  font-size: 13px;
+  font-size: var(--type-supporting);
   line-height: 1.85;
   color: var(--muted);
 }
@@ -484,13 +488,13 @@ h3 {
 
 .step .evidence {
   color: var(--success);
-  font-size: 12px;
+  font-size: var(--type-caption);
 }
 
 .code {
   display: block;
   padding: 12px 15px;
-  font: 12px var(--mono);
+  font: var(--type-caption)/1.7 var(--mono);
   color: var(--code-text);
   background: var(--code-bg);
   border: 1px solid var(--line);
@@ -501,7 +505,7 @@ h3 {
 
 .inline-code {
   padding: 3px 5px;
-  font: 11px var(--mono);
+  font: var(--type-caption)/1.5 var(--mono);
   color: var(--code-text);
   background: var(--code-bg);
   border-radius: 3px;
@@ -522,13 +526,13 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 6px;
   color: var(--text);
-  font: 13px/1.8 var(--mono);
+  font: var(--type-supporting)/1.8 var(--mono);
 }
 
 .toolbox button {
   cursor: pointer;
   border: 0;
-  font: 600 12px var(--font-sans);
+  font: 700 var(--type-supporting)/1.5 var(--font-sans);
 }
 
 .toolbox button.copy {
@@ -543,7 +547,7 @@ h3 {
   margin-top: 15px;
   white-space: pre-wrap;
   line-height: 1.8;
-  font-size: 12px;
+  font-size: var(--type-caption);
 }
 
 .tool-output .error {
@@ -560,7 +564,7 @@ h3 {
 
 .tool-note {
   margin-top: 12px;
-  font-size: 11px;
+  font-size: var(--type-caption);
   color: var(--muted);
 }
 
@@ -593,8 +597,8 @@ summary:focus-visible {
   cursor: pointer;
   list-style: none;
   color: var(--text);
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: var(--type-body);
 }
 
 .faq-list summary::after {
@@ -610,8 +614,8 @@ summary:focus-visible {
 .faq-list details p {
   margin: 15px 0 0;
   color: var(--muted);
-  font-size: 13px;
-  line-height: 1.9;
+  font-size: var(--type-supporting);
+  line-height: var(--leading-body);
 }
 
 .table-wrap {
@@ -621,7 +625,7 @@ summary:focus-visible {
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: var(--type-supporting);
 }
 
 .data-table th,
@@ -634,7 +638,7 @@ summary:focus-visible {
 
 .data-table th {
   color: var(--accent);
-  font: 500 10px var(--mono);
+  font: 500 var(--type-caption)/1.5 var(--mono);
   letter-spacing: 0.7px;
 }
 
@@ -650,8 +654,8 @@ summary:focus-visible {
   background: var(--accent-soft);
   border: 1px solid var(--accent);
   border-radius: 3px;
-  font-size: 10px;
-  font-weight: 600;
+  font-size: var(--type-caption);
+  font-weight: 700;
   letter-spacing: 0.4px;
 }
 
@@ -680,7 +684,7 @@ summary:focus-visible {
 .timeline-item p {
   color: var(--muted);
   line-height: 1.8;
-  font-size: 13px;
+  font-size: var(--type-supporting);
 }
 
 /* ---------- Route diagram and lists ---------- */
@@ -710,14 +714,14 @@ summary:focus-visible {
 }
 
 .route-node strong {
-  font-size: 12px;
+  font-size: var(--type-supporting);
 }
 
 .route-node small {
   display: block;
   margin-top: 5px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: var(--type-caption);
 }
 
 .route-arrow {
@@ -735,7 +739,7 @@ summary:focus-visible {
   position: relative;
   padding-left: 24px;
   color: var(--text);
-  font-size: 13px;
+  font-size: var(--type-supporting);
   line-height: 1.8;
 }
 
@@ -769,7 +773,7 @@ summary:focus-visible {
     border: 1px solid var(--line);
     border-radius: 3px;
     color: var(--text);
-    font: 500 13px var(--font-sans);
+    font: 500 var(--type-supporting)/1.5 var(--font-sans);
     cursor: pointer;
   }
 

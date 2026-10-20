@@ -46,16 +46,16 @@ const descriptions: Record<number, string> = {
 
 <style>
   .oauth-shots { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); }
-  .oauth-shots-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 13px; color: var(--text); font-size: 13px; font-weight: 700; }
-  .oauth-shots-heading span:last-child { color: var(--muted); font-size: 11px; font-weight: 400; }
+  .oauth-shots-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 13px; color: var(--text); font-size: var(--type-supporting); font-weight: 700; }
+  .oauth-shots-heading span:last-child { color: var(--muted); font-size: var(--type-caption); font-weight: 400; }
   .oauth-shots-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
   .oauth-shot { min-width: 0; margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
   .oauth-shot a { display: grid; place-items: center; min-height: 180px; padding: 9px; background: #e9ebed; }
   .oauth-shot a:hover { background: #fff; }
   .oauth-shot a:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
   .oauth-shot img { display: block; width: 100%; height: auto; max-height: 420px; object-fit: contain; }
-  .oauth-shot figcaption { display: flex; align-items: baseline; gap: 9px; min-height: 52px; padding: 11px 12px; color: var(--text); font-size: 11px; line-height: 1.55; }
-  .oauth-shot figcaption span { color: var(--accent); font: 11px var(--mono); }
+  .oauth-shot figcaption { display: flex; align-items: baseline; gap: 9px; min-height: 52px; padding: 11px 12px; color: var(--text); font-size: var(--type-caption); line-height: var(--leading-caption); }
+  .oauth-shot figcaption span { color: var(--accent); font: var(--type-caption)/var(--leading-caption) var(--mono); }
   @media (max-width: 680px) { .oauth-shots-grid { grid-template-columns: 1fr; } .oauth-shot a { min-height: 120px; } .oauth-shot img { max-height: 520px; } }
   @media (max-width: 440px) { .oauth-shots-heading { align-items: flex-start; flex-direction: column; gap: 3px; } }
 </style>

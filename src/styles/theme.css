@@ -5,6 +5,21 @@
   --font-serif: 'Noto Serif TC', 'Noto Sans TC', serif;
   --mono: 'DM Mono', ui-monospace, monospace;
 
+  /* Typography scale. Page styles should select a role instead of inventing sizes. */
+  --type-micro: 10px;
+  --type-caption: 12px;
+  --type-supporting: 14px;
+  --type-body: 16px;
+  --type-subheading: 18px;
+  --type-step-title: clamp(24px, 2.5vw, 28px);
+  --type-section-title: clamp(26px, 3.2vw, 36px);
+  --type-page-title: clamp(34px, 5vw, 54px);
+  --type-display: clamp(36px, 5vw, 60px);
+  --leading-caption: 1.6;
+  --leading-supporting: 1.7;
+  --leading-body: 1.8;
+  --leading-heading: 1.35;
+
   --bg: #f3f1ec;
   --surface: #fbfaf7;
   --surface-2: #e8ecef;

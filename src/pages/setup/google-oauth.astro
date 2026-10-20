@@ -17,7 +17,7 @@ const chapters = [
 ];
 ---
 <SiteLayout title="Google OAuth 申請與設定" description="完整建立 Google Cloud 專案、Drive API、OAuth 同意畫面與 Web Client，並以本機網址助手整理酒館 origin。" active="oauth">
-  <header class="page-hero sky-scope"><CloudSky variant="compact" /><div class="wrap"><div class="page-kicker">FIELD GUIDE / 02</div><h1>替你的酒館備好通行證</h1><p class="lead">讓故事在自己的雲端，有一個歸處。這份指南會陪你完成 Google 設定，讓 TavernRoamer 能把聊天與素材備份到你的 Google Drive。</p><p class="muted" style="font-size:11px">官方文件最後核對：2026 年 9 月 28 日。Google Cloud 介面可能更新；依欄位含義辨認即可。</p></div></header>
+  <header class="page-hero sky-scope"><CloudSky variant="compact" /><div class="wrap"><div class="page-kicker">FIELD GUIDE / 02</div><h1>替你的酒館備好通行證</h1><p class="lead">讓故事在自己的雲端，有一個歸處。這份指南會陪你完成 Google 設定，讓 TavernRoamer 能把聊天與素材備份到你的 Google Drive。</p><p class="muted official-check-date">官方文件最後核對：2026 年 9 月 28 日。Google Cloud 介面可能更新；依欄位含義辨認即可。</p></div></header>
   <PageChapters chapters={chapters} label="Google 設定章節">
   <section class="section"><div class="callout">本指南依 TavernRoamer 程式使用的 Google Identity Services token model 編寫，要求 scope 為 <span class="inline-code">https://www.googleapis.com/auth/drive.file</span>。這是瀏覽器端授權，不使用 Client Secret，也不需為目前這個流程設定 redirect URI。</div><div class="oauth-steps">
     <article class="oauth-step" id="oauth-project"><div class="step-heading"><span class="step-number" aria-hidden="true">01</span><h2>建立或選取 Google Cloud 專案</h2></div><p><strong>位置：</strong><a class="text-link" href="https://console.cloud.google.com/">Google Cloud Console</a>。建立專用專案（例如 TavernRoamer personal），或選取你要使用的專案。</p><p>記得確認 Console 頂端目前選中的是正確專案。專案名稱只是方便辨識，不會影響本機操作。</p><p class="evidence">完成後：Console 顯示你選定的專案。</p><OAuthScreenshots images={[1,2]} /></article>
@@ -83,14 +83,15 @@ const chapters = [
 </SiteLayout>
 
 <style>
+  .official-check-date { font-size:var(--type-caption);line-height:var(--leading-caption); }
   .oauth-steps { margin-top:24px; }
   .oauth-step { padding:36px 0 40px;border-top:1px solid var(--line); }
   .step-heading { display:flex;gap:16px;align-items:baseline;margin-bottom:22px; }
-  .step-heading h2 { margin:0;min-width:0;font-size:clamp(22px,2.5vw,28px);line-height:1.5;text-wrap:balance;overflow-wrap:anywhere; }
-  .step-number { flex-shrink:0;color:var(--accent);font:500 15px var(--mono); }
-  .oauth-step p { margin-bottom:18px;color:var(--muted);font-size:16px;line-height:1.9;overflow-wrap:anywhere; }
+  .step-heading h2 { margin:0;min-width:0;font-size:var(--type-step-title);line-height:1.5;text-wrap:balance;overflow-wrap:anywhere; }
+  .step-number { flex-shrink:0;color:var(--accent);font:500 var(--type-supporting)/1.5 var(--mono); }
+  .oauth-step p { margin-bottom:18px;color:var(--muted);font-size:var(--type-body);line-height:1.9;overflow-wrap:anywhere; }
   .oauth-step strong { color:var(--text); }
-  .oauth-step .evidence { color:var(--success);font-size:14px; }
+  .oauth-step .evidence { color:var(--success);font-size:var(--type-supporting); }
   .oauth-step p:last-child { margin-bottom:0; }
   @media(max-width:600px) {
     .oauth-step { padding:28px 0 32px; }
