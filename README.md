@@ -60,7 +60,9 @@ npm test
 npm run build
 ```
 
-預設建置使用 `/` 作為網站根路徑。若靜態主機將網站放在 `/TavernRoamer/`，建置前設定 `SITE_BASE=TavernRoamer`。例如在 PowerShell：
+推送至 `main` 後，GitHub Actions 會透過 `.github/workflows/deploy.yml` 自動建置並部署到 [https://twinklestars1029.github.io/TavernRoamer-website/](https://twinklestars1029.github.io/TavernRoamer-website/)。第一次部署前，需先在儲存庫的 Settings → Pages → Source 選擇「GitHub Actions」。
+
+預設建置使用 `/` 作為網站根路徑。若其他靜態主機將網站放在 `/TavernRoamer/`，建置前設定 `SITE_BASE=TavernRoamer`。例如在 PowerShell：
 
 ```powershell
 $env:SITE_BASE = 'TavernRoamer'
@@ -68,7 +70,7 @@ npm run build
 Remove-Item Env:SITE_BASE
 ```
 
-將 `dist/` 的內容部署到對應路徑即可。正式主機與網址尚未選定，因此目前未設定 canonical URL；確定網址後，應一併核對部署路徑、站內連結及搜尋引擎中繼資料。
+部署到其他靜態主機時，將 `dist/` 的內容部署到對應路徑即可。目前尚未設定 canonical URL；正式網址確定後，應一併核對部署路徑、站內連結及搜尋引擎中繼資料。
 
 ## 更新內容時
 
