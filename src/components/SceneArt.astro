@@ -1,0 +1,47 @@
+---
+interface Props {
+  variant: 'home' | 'mobile';
+}
+
+const { variant } = Astro.props;
+---
+{variant === 'home' ? (
+  <svg viewBox="0 0 320 160" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle class="scene-wash" cx="160" cy="80" r="70" />
+    <circle cx="259" cy="39" r="14" /><path d="M259 16v-5m0 56v-5m23-23h5m-56 0h5m7-16-4-4m36 36 4 4m-4-36 4-4" />
+    <rect class="device-fill" x="77" y="29" width="166" height="101" rx="7" /><path d="M77 47h166M142 130v18m36-18v18m-48 0h60" />
+    <circle cx="88" cy="38" r="1" /><circle cx="95" cy="38" r="1" /><circle cx="102" cy="38" r="1" />
+    <rect class="bubble-fill" x="94" y="63" width="88" height="16" rx="8" /><rect class="bubble-fill" x="141" y="89" width="84" height="16" rx="8" />
+    <path d="M31 147h258m-234 0v-22m-7 7 7 6 7-12" />
+  </svg>
+) : (
+  <svg viewBox="0 0 320 160" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle class="scene-wash" cx="160" cy="80" r="70" />
+    <path d="M73 25a17 17 0 1 0 20 22 17 17 0 0 1-20-22ZM245 36v10m-5-5h10m-188 58v8m-4-4h8m193-34v6m-3-3h6" />
+    <rect class="device-fill" x="120" y="10" width="80" height="140" rx="12" /><path d="M143 18h34M148 140h24" />
+    <rect class="bubble-fill" x="132" y="42" width="48" height="18" rx="8" /><rect class="bubble-fill" x="145" y="72" width="43" height="18" rx="8" /><rect class="bubble-fill" x="132" y="102" width="37" height="12" rx="6" />
+    <path d="M55 148h210m-181 0v-19m-7 5 7 5 7-11m137 20v-23m-7 8 7 5 7-12" />
+  </svg>
+)}
+
+<style>
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .scene-wash {
+    fill: var(--accent-soft);
+    stroke: none;
+    opacity: 0.65;
+  }
+
+  .device-fill {
+    fill: var(--surface);
+  }
+
+  .bubble-fill {
+    fill: var(--surface-2);
+    stroke: none;
+  }
+</style>

@@ -1,0 +1,365 @@
+/* Intro video stage: a fixed 540×960 canvas, captured at 2× for a 1080×1920 export. */
+.intro-body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #000;
+}
+
+.intro-stage {
+  --topbar-h: 40px;
+  --cloud-bank-h: 220px;
+  position: relative;
+  width: 540px;
+  height: 960px;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: var(--font-sans);
+}
+
+.intro-sky {
+  position: absolute;
+  inset: 0;
+}
+
+/* Three classes outrank CloudSky's scoped rules, including the one that hides the puff below 800px. */
+.intro-stage .intro-sky .cloud-sky__puff {
+  display: block;
+  top: 70px;
+  width: 260px;
+  opacity: 0;
+}
+
+.intro-stage .intro-sky .cloud-sky__bank {
+  translate: 0 100%;
+}
+
+.intro-stage .intro-sky .cloud-sky__stars circle {
+  opacity: 0;
+}
+
+.intro-dawn {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(150, 186, 232, 0.4), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Scene 1 */
+.intro-hero {
+  position: absolute;
+  top: 250px;
+  left: 36px;
+  right: 36px;
+  text-align: center;
+}
+
+.intro-hero .eyebrow {
+  justify-content: center;
+  font: 500 18px/1.6 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: none;
+  opacity: 0;
+}
+
+.intro-hero h1 {
+  margin: 24px 0 0;
+  font-size: 44px;
+  line-height: 1.45;
+  opacity: 0;
+}
+
+.intro-hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* Captions share one spot at the top and cross-fade. */
+.intro-captions {
+  position: absolute;
+  top: 150px;
+  left: 32px;
+  right: 32px;
+}
+
+.intro-caption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 34px;
+  line-height: 1.5;
+  opacity: 0;
+}
+
+/* Scene 2 */
+.intro-scene {
+  position: absolute;
+  top: 400px;
+  left: 70px;
+  right: 70px;
+  margin: 0;
+  text-align: center;
+  color: var(--accent);
+  opacity: 0;
+}
+
+.intro-scene__art {
+  height: 220px;
+}
+
+.intro-scene .tag {
+  display: block;
+  margin-top: 16px;
+  font: 500 18px/1.6 var(--font-sans);
+  letter-spacing: 0.06em;
+}
+
+.intro-scene .bubble-fill {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Scene 3 */
+.intro-window {
+  position: absolute;
+  left: 270px;
+  top: 560px;
+  width: 240px;
+  translate: -50% -50%;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  background: var(--surface);
+  opacity: 0;
+}
+
+.intro-window__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.intro-window__dots {
+  display: flex;
+  gap: 5px;
+}
+
+.intro-window__dots i {
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+}
+
+.intro-window__body {
+  padding: 22px 16px;
+  text-align: center;
+}
+
+.intro-window__body h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.intro-window__body p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Items: the wrapper moves (translate) and pops (scale); the icon wobbles (rotate). */
+.intro-item {
+  position: absolute;
+  left: 270px;
+  top: 560px;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.intro-item__icon {
+  position: absolute;
+  left: -28px;
+  top: -28px;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.intro-item__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.intro-item__name {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  translate: -50% 0;
+  white-space: nowrap;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 500;
+  opacity: 0;
+}
+
+.intro-bundle {
+  position: absolute;
+  left: 230px;
+  top: 520px;
+  width: 80px;
+  height: 80px;
+  opacity: 0;
+}
+
+.intro-bundle__glow {
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow), transparent 65%);
+  opacity: 0;
+}
+
+.intro-bundle__cloud {
+  position: absolute;
+  left: -24px;
+  right: -24px;
+  bottom: -26px;
+  width: calc(100% + 48px);
+  height: 40px;
+  fill: url(#cloud-puff);
+  opacity: 0;
+}
+
+.intro-bundle__case {
+  position: absolute;
+  inset: 12px;
+  width: 56px;
+  height: 56px;
+  color: var(--accent);
+}
+
+/* Scene 4: stops 01 (bottom) to 03 (top) on a vertical line at x = 120. */
+.intro-route {
+  position: absolute;
+  left: 120px;
+  top: 420px;
+  height: 240px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  opacity: 0;
+}
+
+.intro-route::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-left: 1px dashed var(--line);
+}
+
+.intro-route li {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  translate: -16px -50%;
+}
+
+.intro-route li:nth-child(1) { top: 240px; }
+.intro-route li:nth-child(2) { top: 120px; }
+.intro-route li:nth-child(3) { top: 0; }
+
+.intro-route__number {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--accent);
+  font: 500 12px var(--mono);
+}
+
+.intro-route__lit {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: var(--on-primary);
+  opacity: 0;
+}
+
+.intro-route__lit svg {
+  width: 18px;
+  height: 18px;
+}
+
+.intro-route__copy {
+  white-space: nowrap;
+}
+
+.intro-route .tag {
+  display: block;
+  color: var(--accent);
+  font: 500 14px/1.6 var(--font-sans);
+  letter-spacing: 0.06em;
+}
+
+.intro-route h3 {
+  margin: 2px 0 0;
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Scene 5 */
+.intro-brand {
+  position: absolute;
+  top: 464px;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  gap: 16px;
+  font-size: 30px;
+  opacity: 0;
+}
+
+.intro-brand .brand-mark {
+  width: 56px;
+  height: 56px;
+  font-size: 28px;
+}
+
+.intro-brand small {
+  margin-top: 6px;
+  font-size: 12px;
+  letter-spacing: 3px;
+}

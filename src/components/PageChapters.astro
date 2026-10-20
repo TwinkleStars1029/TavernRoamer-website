@@ -8,31 +8,46 @@ interface Chapter {
 interface Props {
   chapters: Chapter[];
   label: string;
+  collapseOnMobile?: boolean;
 }
 
-const { chapters, label } = Astro.props;
+const { chapters, label, collapseOnMobile = false } = Astro.props;
 ---
 
-<div class="wrap tutorial-layout">
+<div class:list={['wrap tutorial-layout', { 'collapse-on-mobile': collapseOnMobile }]}>
   <nav class="tutorial-toc" aria-label={label}>
     <span class="toc-title">本頁章節</span>
     {chapters.map(chapter => <a href={chapter.href}><span>{chapter.number}</span>{chapter.label}</a>)}
   </nav>
+  {collapseOnMobile && <details class="mobile-toc">
+    <summary>查看安裝步驟與跳轉</summary>
+    <nav aria-label={label}>
+      {chapters.map(chapter => <a href={chapter.href}><span>{chapter.number}</span>{chapter.label}</a>)}
+    </nav>
+  </details>}
   <div class="tutorial-content"><slot /></div>
 </div>
 
 <style>
   .tutorial-layout { display:grid;grid-template-columns:205px minmax(0,1fr);gap:clamp(26px,5vw,66px);align-items:start; }
   .tutorial-toc { position:sticky;top:100px;margin-top:54px;padding:16px 0 18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:3px; }
-  .toc-title { color:var(--gold);font:10px var(--mono);letter-spacing:1.3px;margin:0 12px 10px; }
-  .tutorial-toc a { display:flex;gap:12px;align-items:baseline;color:#c5c9b9;text-decoration:none;font-size:12px;padding:10px 12px;border-left:2px solid transparent;line-height:1.5; }
-  .tutorial-toc a span { color:var(--gold);font:10px var(--mono); }
-  .tutorial-toc a:hover,.tutorial-toc a:focus-visible { color:var(--green);border-left-color:var(--green);background:#222a22; }
+  .toc-title { color:var(--accent);font:var(--type-caption)/1.5 var(--mono);letter-spacing:1.3px;margin:0 12px 10px; }
+  .tutorial-toc a { display:flex;gap:12px;align-items:baseline;color:var(--muted);text-decoration:none;font-size:var(--type-supporting);padding:10px 12px;border-left:2px solid transparent;line-height:1.5; }
+  .tutorial-toc a span { color:var(--accent);font:var(--type-caption)/1.5 var(--mono); }
+  .tutorial-toc a:hover,.tutorial-toc a:focus-visible { color:var(--accent);border-left-color:var(--accent);background:var(--surface-2); }
   .tutorial-content { min-width:0; }
+  .mobile-toc { display:none; }
   @media(max-width:1050px) {
     .tutorial-layout { grid-template-columns:1fr;gap:0; }
     .tutorial-toc { position:static;display:flex;flex-wrap:wrap;gap:4px 8px;margin-top:25px;padding:14px 0; }
     .toc-title { width:100%;margin:0 0 4px; }
     .tutorial-toc a { border:1px solid var(--line);padding:9px 11px; }
+    .collapse-on-mobile > .tutorial-toc { display:none; }
+    .mobile-toc { display:block;margin-top:24px;border-block:1px solid var(--line); }
+    .mobile-toc summary { padding:16px 4px;cursor:pointer;color:var(--text);font-size:var(--type-supporting);font-weight:700; }
+    .mobile-toc nav { display:grid;padding-bottom:12px; }
+    .mobile-toc a { display:flex;gap:14px;align-items:baseline;padding:12px 4px;color:var(--muted);text-decoration:none;font-size:var(--type-supporting);line-height:1.5; }
+    .mobile-toc a span { color:var(--accent);font:var(--type-caption)/1.5 var(--mono); }
+    .mobile-toc a:hover { color:var(--accent); }
   }
 </style>

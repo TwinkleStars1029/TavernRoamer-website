@@ -7,12 +7,14 @@
     "build": "astro build",
     "preview": "astro preview --host 127.0.0.1",
     "typecheck": "astro check",
-    "test": "vitest run"
+    "test": "vitest run",
+    "export:intro": "node scripts/export-intro.mjs"
   },
-  "dependencies": {},
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "astro": "^7.3.5",
+    "ffmpeg-static": "^5.3.0",
+    "playwright": "^1.64.1",
     "typescript": "^5.8.3",
     "vitest": "^5.0.2"
   }

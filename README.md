@@ -43,9 +43,10 @@ OAuth 頁面的網址助手只在瀏覽器中將輸入整理成 Google 所需的
 
 ```text
 src/pages/       各頁內容與路由
-src/layouts/     共用版型、導覽與樣式
-src/components/  頁內目錄及 OAuth 步驟截圖
-src/lib/         網址格式助手及其測試
+src/layouts/     共用版型與導覽
+src/styles/      主題色彩變數（亮色／暗色）與全域樣式
+src/components/  雲朵主視覺、主題切換鈕、頁內目錄及 OAuth 步驟截圖
+src/lib/         網址格式助手、主題切換與對比度工具，以及它們的測試
 public/          圖片與 favicon
 ```
 

@@ -1,0 +1,82 @@
+.faq-page {
+  --faq-body-size: var(--type-body);
+  --faq-small-size: var(--type-caption);
+  --faq-subheading-size: var(--type-subheading);
+  --faq-heading-size: var(--type-section-title);
+  font-size: var(--faq-body-size);
+  line-height: 1.8;
+}
+
+.faq-page h1 {
+  font-size: var(--type-page-title);
+}
+
+.faq-page h2 {
+  font-size: var(--faq-heading-size);
+}
+
+.faq-page h3 {
+  font-size: var(--faq-subheading-size);
+  line-height: 1.5;
+}
+
+.faq-page .lead,
+.faq-page .faq-list summary,
+.faq-page .faq-list details p,
+.faq-page .faq-list details li,
+.faq-page .text-link {
+  font-size: var(--faq-body-size);
+  line-height: 1.8;
+}
+
+.faq-page .faq-answer {
+  padding-top: 16px;
+  color: var(--muted);
+}
+
+.faq-page .faq-answer p {
+  margin: 0;
+}
+
+.faq-page .faq-answer p + p,
+.faq-page .faq-answer ol + p,
+.faq-page .faq-answer ul + p {
+  margin-top: 16px;
+}
+
+.faq-page .faq-answer ol,
+.faq-page .faq-answer ul {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding-left: 1.5em;
+}
+
+.faq-page .faq-answer li {
+  padding-left: 4px;
+}
+
+.faq-page .faq-answer strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.faq-page .faq-answer code {
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+
+.faq-page .faq-answer .faq-note {
+  padding-left: 14px;
+  border-left: 3px solid var(--accent);
+}
+
+.faq-page .faq-answer .text-link {
+  display: inline-block;
+  margin-top: 16px;
+}
+

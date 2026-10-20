@@ -1,62 +1,903 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import CloudSky from '../components/CloudSky.astro';
+import SceneArt from '../components/SceneArt.astro';
+import { luggage } from '../data/luggage';
+
 const base = import.meta.env.BASE_URL;
+const benefits = [
+  { title: '聊過的，輕輕留存', copy: '每 N 則訊息自動上傳聊天，讓你少一點惦記，多一點專心。', path: 'M20 16.5A5 5 0 0 0 18 7a6 6 0 0 0-11.7 1A4.5 4.5 0 0 0 5 17h3m4 4V11m-4 4 4-4 4 4' },
+  { title: '出發前，留下來時的足跡', copy: '更新與還原前，先備份本機內容；備份未完成，就中止對應的覆蓋。', path: 'M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Zm-4-10 3 3 5-6' },
+  { title: '故事，由自己好好保管', copy: '存進自己的 Google Drive，也由你決定要帶走與還原哪些素材。', path: 'M4 21V7l8-4 8 4v14M8 21v-7h8v7M2 21h20M9 8h6' }
+];
 ---
-<SiteLayout title="讓酒館故事跟著你走" description="TavernRoamer 將 SillyTavern 聊天與你選擇的環境素材備份到自己的 Google Drive，讓你在另一台裝置接續故事。" active="home">
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <div class="eyebrow">YOUR STORIES, IN YOUR POCKET</div>
-        <h1>讓酒館聊天<br /><em>跟著你走。</em></h1>
-        <p class="lead">把 SillyTavern 的聊天與相關素材，備份到你自己的 Google Drive。換一台裝置，也能把故事接下去。</p>
-        <p class="muted" style="font-size:12px">TavernRoamer 是酒館助手（JS-Slash-Runner）腳本，需要先安裝 SillyTavern 與酒館助手。</p>
-        <div class="button-row"><a class="button" href={`${base}install/`}>開始安裝 <span aria-hidden="true">→</span></a><a class="button secondary" href={`${base}how-to-use/`}>跟著使用教學做</a></div>
+
+<SiteLayout title="讓故事乘著雲，在各處酒館之間漫遊。" description="TavernRoamer 以聊天視窗為中心，將聊天紀錄與搭配的角色卡、人設、世界書、預設和正則備份到自己的 Google Drive，讓故事在各處酒館之間接續。" active="home">
+  <div class="home-page">
+    <section class="hero home-hero sky-scope" aria-labelledby="home-title">
+      <CloudSky variant="full" />
+      <div class="wrap hero-copy">
+        <div class="eyebrow">TavernRoamer · 雲端漫遊</div>
+        <h1 id="home-title">讓故事乘著雲，<br /><em>在各處酒館之間漫遊。</em></h1>
+        <p class="lead">以聊天視窗為中心，收好故事與搭配的素材，換個酒館接著聊。</p>
+        <div class="button-row">
+          <a class="button secondary" href="#story">酒館漫遊介紹<span aria-hidden="true">↓</span></a>
+          <a class="button" href={`${base}install/`}>開始安裝 <span aria-hidden="true">→</span></a>
+        </div>
+        
       </div>
-      <figure class="product-shot">
-        <img src={`${base}images/tavernroamer-panel.png`} width="1715" height="1291" alt="TavernRoamer 雲端漫遊面板示意圖，顯示 Google Drive 連線、聊天同步及酒館環境備份功能" fetchpriority="high" />
-        <figcaption>介面示意圖｜非實際產品截圖</figcaption>
-        <a class="product-shot-link text-link" href={`${base}interface/`}>認識介面上的每個區塊 →</a>
-      </figure>
-    </div>
-  </section>
-  <section class="section"><div class="wrap"><div class="section-heading"><div class="eyebrow">A LITTLE MAP FOR YOUR STORY</div><h2>在一台裝置收好，<br />到另一台繼續。</h2><p>Roamer 將備份放進你授權的 Google Drive。你選擇何時上傳、何時在另一台裝置建立聊天，掌握每次故事移動。</p></div><div class="route" aria-label="跨裝置流程：來源裝置備份，儲存至自己的 Google Drive，目標裝置拉取聊天"><div class="route-node"><span class="icon">⌂</span><strong>來源裝置</strong><small>選擇聊天並備份</small></div><span class="route-arrow" aria-hidden="true">⟶</span><div class="route-node"><span class="icon">◉</span><strong>你的 Google Drive</strong><small>由你的帳號保管</small></div><span class="route-arrow" aria-hidden="true">⟶</span><div class="route-node"><span class="icon">⌂</span><strong>另一台裝置</strong><small>找到備份並建立聊天</small></div></div><div class="callout">這是你操作的備份與拉取流程，不是即時雙向同步。每台裝置都要安裝腳本、填入同一個 Client ID，並以可存取備份的 Google 帳號授權。</div></div></section>
-  <section class="section"><div class="wrap"><div class="section-heading"><div class="eyebrow">PACK LIGHT, KEEP THE GOOD PARTS</div><h2>聊天跟環境，分開整理。</h2><p>先把要帶走的內容收進雲端；到新裝置後，依需要拉取聊天或還原環境素材。</p></div><div class="grid-2"><article class="card"><div class="tag">01 / CHAT</div><h3>聊天備份與接續</h3><p>「上傳目前聊天」建立備份；「更新目前聊天」會以雲端最新版取代本機聊天，使用前先保存重要本機內容；在另一台裝置用「從雲端建立其他聊天」找回聊天。若缺少角色卡，拉取流程可能使用該聊天的角色卡備份。</p></article><article class="card"><div class="tag">02 / TAVERN ENVIRONMENT</div><h3>酒館環境素材</h3><p>可另外執行「備份酒館環境」與「還原酒館環境」。目前程式涵蓋角色卡、世界書、玩家人設(Persona)、預設提示詞 (Preset)、正則 (Regex)；各類細節及不同酒館版本行為尚待實際酒館驗證。</p></article></div></div></section>
-  <section class="section"><div class="wrap grid-2"><div><div class="eyebrow">BEFORE YOU SET OUT</div><h2>第一次出發，<br />先準備三樣東西。</h2></div><div><ul class="list-clean"><li>可使用的 SillyTavern 環境</li><li>酒館助手（JS-Slash-Runner）</li><li>Google 帳號，以及自行設定 Google Cloud OAuth 的能力</li></ul><p class="muted" style="font-size:12px;line-height:1.8">現在可依安裝指南，將 TavernRoamer 的 main 分支腳本加入酒館助手全域腳本庫。這個來源會隨 main 分支更新，尚非固定版本。</p><a class="text-link" href={`${base}install/#import-script`}>查看腳本安裝步驟 →</a></div></div></section>
-  <section class="section"><div class="wrap"><div class="section-heading"><div class="eyebrow">GOOD TO KNOW</div><h2>旅途中記得這幾件事。</h2></div><div class="grid-3"><article class="card"><h3>你選擇 Drive 帳號</h3><p>網站不會登入 Google。腳本以 drive.file 權限工作，可存取由此 app 建立或授權給 app 的特定檔案。</p></article><article class="card"><h3>拉取聊天不等於還原全部</h3><p>從雲端建立聊天會建立並開啟聊天。角色卡缺失時才有角色卡還原分支；其他素材需另行還原環境。</p></article><article class="card"><h3>還原會改動酒館內容</h3><p>還原前可建立目前環境備份。預設提示詞 (Preset)、正則 (Regex)、玩家人設(Persona) 等共用素材可能影響其他聊天。</p></article></div></div></section>
-  <section class="section"><div class="wrap grid-2"><div><div class="eyebrow">THE ROAD AHEAD</div><h2>想開始整理行囊？</h2><p class="lead">從 OAuth 設定到跨裝置接續，我們把每一步都寫清楚，也把尚未驗證的地方明白標出。</p></div><div class="button-row" style="align-content:center"><a class="button" href={`${base}install/`}>前往安裝指南 →</a><a class="button secondary" href={`${base}setup/google-oauth/`}>Google OAuth 設定</a></div></div></section>
+    </section>
+
+    <section class="section" id="story" aria-labelledby="story-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow">故事隨行</div>
+          <h2 id="story-title">換個地方，<br />還想接著那句未完的話。</h2>
+          <p>從家裡到掌心，接續同一扇聊天窗裡的故事。</p>
+        </div>
+        <div class="grid-2 scenes">
+          <article class="home-card scene">
+            <div class="scene-art" aria-hidden="true">
+              <SceneArt variant="home" />
+            </div>
+            <div class="scene-copy">
+              <div class="tag">在家 · 本機酒館</div>
+              <h3>慢慢聊過一個午後。</h3>
+              <p>在電腦前，和熟悉的角色，讓故事往前走一點。</p>
+            </div>
+          </article>
+          <article class="home-card scene">
+            <div class="scene-art" aria-hidden="true">
+              <SceneArt variant="mobile" />
+            </div>
+            <div class="scene-copy">
+              <div class="tag">出門 · 雲端酒館</div>
+              <h3>打開手機，再聊一會。</h3>
+              <p>連上雲端酒館，把剛才的進度，接到下一段對話。</p>
+            </div>
+          </article>
+        </div>
+        <div class="packing-thought">
+          <p>每次換個環境，卻總得逐一搬好聊天紀錄與搭配的素材，才能坐下來，接著聊。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section luggage-section" id="story-luggage" aria-labelledby="luggage-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow">故事行囊</div>
+          <h2 id="luggage-title">每一扇聊天視窗，<br />都有一份自己的故事行囊。</h2>
+          <p>圍繞目前的聊天視窗整理備份，讓故事與搭配的素材，有一個共同的歸處。</p>
+        </div>
+        <div class="luggage-map">
+          <svg class="luggage-threads" viewBox="0 0 1000 360" preserveAspectRatio="none" fill="none" aria-hidden="true">
+            <path d="M215 60C340 60 310 180 500 180M215 180H500M215 300C340 300 310 180 500 180M785 60C660 60 690 180 500 180M785 180H500M785 300C660 300 690 180 500 180" />
+          </svg>
+          <div class="story-window">
+            <div class="window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>一段未完的故事</span></div>
+            <div class="window-content">
+              <h3>目前的聊天視窗</h3>
+              <p>這段故事與搭配的素材</p>
+            </div>
+            <div class="window-foot">同一段故事，共同的歸處</div>
+          </div>
+          <div class="luggage-items">
+            {luggage.map(item => (
+              <div class:list={['luggage-item', `luggage-item--${item.side}`]} style={`--item-row: ${item.row}`}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={item.path} /></svg>
+                <div><strong>{item.name}</strong><span>{item.detail}</span></div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="luggage-caption">
+          <p>選好素材，備份到雲端；在另一個酒館取回聊天，再按需還原。</p>
+          <a class="text-link" href={`${base}how-to-use/#environment`}>看看行囊裡能收好哪些內容 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow">安心漫遊</div>
+          <h2 id="features-title">讓漫遊的途中，<br />少一些掛心。</h2>
+          <p>把保存的瑣事交給工具，留多一點時間，給還想繼續的故事。</p>
+        </div>
+        <div class="grid-3 benefit-grid">
+          {benefits.map(benefit => (
+            <article class="home-card benefit-card">
+              <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={benefit.path} /></svg>
+              <div class="benefit-copy"><h3>{benefit.title}</h3><p>{benefit.copy}</p></div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="journey" aria-labelledby="journey-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow">漫遊路線</div>
+          <h2 id="journey-title">在這座酒館收好，<br />到下一座酒館展開。</h2>
+          <p>從這扇聊天窗出發，經過自己的雲端，再到另一座酒館接著聊。</p>
+        </div>
+        <div class="journey-grid">
+          <ol class="journey-stops">
+            <li><span class="stop-number" aria-hidden="true">01</span><div><div class="tag">目前的酒館</div><h3>收好這扇窗的行囊</h3><p>上傳聊天，再備份需要的素材；確認沒有待傳資料後，就能出發。</p></div></li>
+            <li><span class="stop-number" aria-hidden="true">02</span><div><div class="tag">自己的 Google Drive</div><h3>故事在雲端陪你一起旅行</h3><p>聊天視窗與環境一起收藏，存進自己的 Google Drive。</p></div></li>
+            <li><span class="stop-number" aria-hidden="true">03</span><div><div class="tag">另一座酒館</div><h3>展開行囊，接著聊下去</h3><p>建立或更新聊天，再還原需要的環境素材，接著聊下去。</p></div></li>
+          </ol>
+          <figure class="home-card product-shot">
+            <img src={`${base}images/tavernroamer-panel.png`} width="1715" height="1291" alt="TavernRoamer 雲端漫遊面板示意圖，顯示 Google Drive 連線、聊天同步及酒館環境備份功能" loading="lazy" decoding="async" />
+            <a class="product-shot-link text-link" href={`${base}interface/`}>認識操作介面 <span aria-hidden="true">→</span></a>
+          </figure>
+        </div>
+        <div class="journey-link"><a class="text-link" href={`${base}how-to-use/`}>跟著完整教學，走過第一次漫遊 <span aria-hidden="true">→</span></a></div>
+      </div>
+    </section>
+
+    <section class="section" id="prepare" aria-labelledby="prepare-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow">閱讀路線</div>
+          <h2 id="prepare-title">初次踏上旅程，<br />跟著路線慢慢出發。</h2>
+          <p>先完成安裝，再連上自己的雲端。接著，讓想了解的那份指南，陪你往下走。</p>
+        </div>
+        <ol class="reading-route" role="list" aria-label="建議閱讀順序">
+          <li class="reading-step">
+            <span class="stop-number" aria-hidden="true">01</span>
+            <div class="reading-content">
+              <h3><a class="reading-title-link" href={`${base}install/`}>安裝指南 <span class="reading-arrow" aria-hidden="true">→</span></a></h3>
+              <p>安裝酒館助手與 TavernRoamer，為漫遊準備好起點。</p>
+            </div>
+          </li>
+          <li class="reading-step">
+            <span class="stop-number" aria-hidden="true">02</span>
+            <div class="reading-content">
+              <h3><a class="reading-title-link" href={`${base}setup/google-oauth/`}>Google 設定 <span class="reading-arrow" aria-hidden="true">→</span></a></h3>
+              <p>完成 Google 授權設定，申請雲端通行證，讓故事找到雲端自在跟隨。</p>
+            </div>
+          </li>
+          <li class="reading-step">
+            <span class="stop-number" aria-hidden="true">03</span>
+            <div class="reading-content">
+              <h3 class="reading-stage-title">接著探索</h3>
+              <p>前兩步完成後，選一份指南，從想了解的地方繼續。</p>
+              <ul class="reading-guides" role="list" aria-label="依需要選讀">
+                <li><a class="reading-guide" href={`${base}how-to-use/`}>
+                  <div class="reading-guide-heading"><h4>使用教學</h4><span class="reading-arrow" aria-hidden="true">→</span></div>
+                  <p>走過上傳聊天、取回與環境還原的流程。</p>
+                </a></li>
+                <li><a class="reading-guide" href={`${base}interface/`}>
+                  <div class="reading-guide-heading"><h4>面板介紹</h4><span class="reading-arrow" aria-hidden="true">→</span></div>
+                  <p>認識狀態與按鈕，找到操作的位置。</p>
+                </a></li>
+                <li><a class="reading-guide" href={`${base}data-and-permissions/`}>
+                  <div class="reading-guide-heading"><h4>資料與權限</h4><span class="reading-arrow" aria-hidden="true">→</span></div>
+                  <p>了解資料存放、授權與還原影響。</p>
+                </a></li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section farewell" aria-labelledby="farewell-title">
+      <div class="wrap">
+        <div class="eyebrow">下一段旅程</div>
+        <h2 id="farewell-title">故事在雲端漫遊<br />陪你一起旅行</h2>
+        <p class="lead">帶著這扇聊天窗的行囊，<br />到各處酒館都能接續聊天</p>
+        <div class="button-row">
+          <a class="button" href={`${base}install/`}>開始安裝 <span aria-hidden="true">→</span></a>
+          <a class="button" href={`${base}how-to-use/`}> 使用教學 →</a>
+        </div>
+      </div>
+    </section>
+  </div>
 </SiteLayout>
+
 <style>
+  .home-page {
+    --home-gap: 24px;
+    --home-card-padding: 24px;
+    --home-radius: 12px;
+    --home-copy-width: 44rem;
+    --home-card-title: 20px;
+    --home-section-space: 64px;
+    overflow-wrap: break-word;
+    font-size: var(--type-body);
+  }
+
+  .home-page .section {
+    position: relative;
+    padding-block: var(--home-section-space);
+    border-top: 0;
+  }
+
+  .home-page .section + .section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: calc(100% - 56px);
+    max-width: 1064px;
+    height: 1px;
+    margin-inline: auto;
+    background: var(--line);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .home-page h1,
+  .home-page h2 {
+    text-wrap: balance;
+  }
+
+  .home-page h3 {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--home-card-title);
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  .home-page p {
+    margin: 0;
+    line-height: 1.8;
+  }
+
+  .home-page .eyebrow,
+  .home-page .tag {
+    font: 500 var(--type-supporting)/var(--leading-caption) var(--font-sans);
+    letter-spacing: 0.06em;
+    text-transform: none;
+  }
+
+  .home-page .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .home-page .section-heading {
+    max-width: var(--home-copy-width);
+    margin: 0 0 var(--home-gap);
+    text-align: left;
+  }
+
+  .home-page .section-heading h2 {
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .home-page .section-heading p {
+    margin-top: 12px;
+    font-size: var(--type-body);
+  }
+
+  .home-page .text-link {
+    font-size: var(--type-body);
+    line-height: 1.7;
+  }
+
+  .home-page .button {
+    min-height: 46px;
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .home-card {
+    padding: var(--home-card-padding);
+    border: 1px solid var(--line);
+    border-radius: var(--home-radius);
+    background: var(--surface);
+    box-shadow: none;
+  }
+
+  .home-card p {
+    color: var(--muted);
+    font-size: var(--type-body);
+  }
+
+  .scenes,
+  .benefit-grid {
+    gap: var(--home-gap);
+  }
+
+  /* The opening and closing frame the story; all middle headings share one axis. */
+  .home-hero {
+    --cloud-bank-h: clamp(160px, 16vw, 220px);
+    padding-top: calc(var(--topbar-h) + 56px);
+    padding-bottom: var(--cloud-bank-h);
+  }
+
+  .hero-copy {
+    text-align: center;
+  }
+
+  .hero-copy .eyebrow,
+  .hero-copy .button-row,
+  .farewell .eyebrow,
+  .farewell .button-row {
+    justify-content: center;
+  }
+
+  .hero-copy h1 {
+    margin: 20px 0;
+    font-size: var(--type-display);
+    line-height: 1.45;
+  }
+
+  .home-hero .lead {
+    max-width: var(--home-copy-width);
+    margin-inline: auto;
+    font-size: var(--type-body);
+    text-wrap: balance;
+  }
+
+  .home-page .button-row {
+    gap: 16px;
+    margin-top: var(--home-gap);
+  }
+
+  .home-page .hero-note {
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: var(--type-supporting);
+  }
+
+  /* Shared cards, with smaller artwork when the scenes stack. */
+  .scene-art {
+    height: 128px;
+    margin-bottom: 16px;
+    color: var(--accent);
+  }
+
+  .scene h3 {
+    margin-top: 8px;
+  }
+
+  .scene p,
+  .benefit-card p {
+    margin-top: 8px;
+  }
+
+  .packing-thought {
+    max-width: var(--home-copy-width);
+    margin-top: var(--home-gap);
+    color: var(--muted);
+  }
+
+  /* One enclosing canvas keeps the chat and its six items visibly related. */
+  .luggage-map {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 1.25fr) minmax(0, 1fr);
+    grid-template-rows: repeat(3, minmax(80px, auto));
+    gap: 16px var(--home-gap);
+    padding: var(--home-card-padding);
+    border: 1px solid var(--line);
+    border-radius: var(--home-radius);
+    background: var(--surface);
+  }
+
+  .luggage-threads {
+    position: absolute;
+    inset: var(--home-card-padding);
+    width: calc(100% - var(--home-card-padding) - var(--home-card-padding));
+    height: calc(100% - var(--home-card-padding) - var(--home-card-padding));
+    stroke: var(--accent);
+    stroke-width: 1;
+    stroke-dasharray: 4 6;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .luggage-items {
+    display: contents;
+  }
+
+  .story-window {
+    position: relative;
+    grid-column: 2;
+    grid-row: 1 / 4;
+    align-self: center;
+    border: 1px solid var(--accent);
+    border-radius: var(--home-radius);
+    background: var(--bg);
+  }
+
+  .window-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: var(--type-caption);
+    line-height: var(--leading-caption);
+  }
+
+  .window-dots {
+    display: flex;
+    gap: 5px;
+  }
+
+  .window-dots i {
+    width: 5px;
+    height: 5px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+  }
+
+  .window-content {
+    padding: 24px 16px;
+    text-align: center;
+  }
+
+  .window-content p {
+    margin-top: 8px;
+    color: var(--muted);
+  }
+
+  .window-foot {
+    padding: 10px 16px;
+    border-top: 1px solid var(--line);
+    color: var(--accent);
+    text-align: center;
+    font-size: var(--type-supporting);
+    line-height: var(--leading-caption);
+  }
+
+  .luggage-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    gap: 12px;
+    grid-row: var(--item-row);
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--home-radius);
+    background: var(--bg);
+  }
+
+  .luggage-item--left {
+    grid-column: 1;
+  }
+
+  .luggage-item--right {
+    grid-column: 3;
+  }
+
+  .luggage-item svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+
+  .luggage-item strong,
+  .luggage-item span {
+    display: block;
+  }
+
+  .luggage-item strong {
+    font-size: var(--type-body);
+    line-height: 1.5;
+  }
+
+  .luggage-item span {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: var(--type-supporting);
+    line-height: var(--leading-caption);
+  }
+
+  .luggage-caption {
+    max-width: var(--home-copy-width);
+    margin-top: var(--home-gap);
+    color: var(--muted);
+  }
+
+  .luggage-caption a {
+    display: inline-block;
+    margin-top: 8px;
+    padding-block: 4px;
+  }
+
+  .benefit-card {
+    display: grid;
+    align-content: start;
+    gap: 16px;
+  }
+
+  .benefit-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--accent);
+  }
+
+  .benefit-card h3 {
+    min-height: 3em;
+  }
+
+  /* The journey uses the same two-column grid as the scenes. */
+  .journey-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--home-gap);
+  }
+
+  .journey-stops {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .journey-stops li {
+    position: relative;
+    display: flex;
+    gap: 16px;
+    padding-bottom: 24px;
+  }
+
+  .journey-stops li:last-child {
+    padding-bottom: 0;
+  }
+
+  .journey-stops li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    bottom: 8px;
+    left: 15px;
+    border-left: 1px solid var(--line);
+  }
+
+  .stop-number {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--accent);
+    font: 500 var(--type-caption)/1.5 var(--mono);
+  }
+
+  .journey-stops h3 {
+    margin: 4px 0 8px;
+  }
+
+  .journey-stops p {
+    color: var(--muted);
+  }
+
   .product-shot {
     margin: 0;
     min-width: 0;
-    padding: 8px;
-    border: 1px solid #65725b;
-    background: #303532;
-    box-shadow: 0 26px 60px #0008;
-    transform: rotate(1deg);
   }
 
   .product-shot img {
     display: block;
     width: 100%;
     height: auto;
+    border-radius: 8px;
   }
 
   .product-shot figcaption {
-    margin-top: 11px;
+    margin-top: 12px;
     color: var(--muted);
-    font-size: 11px;
-    text-align: right;
+    font-size: var(--type-supporting);
+    line-height: var(--leading-supporting);
+  }
+
+  .product-shot-link,
+  .journey-link {
+    display: block;
+    width: fit-content;
+    padding-block: 4px;
   }
 
   .product-shot-link {
+    margin-top: 8px;
+  }
+
+  .journey-link {
+    margin-top: var(--home-gap);
+  }
+
+  /* Install and connect in order, then choose a guide to keep reading. */
+  .reading-route,
+  .reading-guides {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .reading-step {
+    position: relative;
+    display: flex;
+    gap: 16px;
+    padding-bottom: 24px;
+  }
+
+  .reading-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .reading-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 46px;
+    bottom: 8px;
+    left: 15px;
+    border-left: 1px solid var(--line);
+  }
+
+  .reading-step .stop-number {
+    margin-top: 6px;
+  }
+
+  .reading-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .reading-content > p {
+    max-width: var(--home-copy-width);
+    color: var(--muted);
+  }
+
+  .reading-title-link,
+  .reading-stage-title {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    gap: 12px;
+  }
+
+  .reading-title-link,
+  .reading-guide {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .reading-title-link:hover,
+  .reading-title-link:focus-visible,
+  .reading-guide:hover h4,
+  .reading-guide:focus-visible h4 {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .reading-arrow {
+    flex-shrink: 0;
+    color: var(--accent);
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .reading-guides {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px var(--home-gap);
+    margin-top: 16px;
+  }
+
+  .reading-guide {
     display: block;
-    margin-top: 9px;
-    font-size: 12px;
-    text-align: right;
+    min-height: 44px;
+    padding-block: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  .reading-guide-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .reading-guides h4 {
+    margin: 0;
+    font-size: var(--type-body);
+    line-height: 1.5;
+  }
+
+  .reading-guide p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: var(--type-supporting);
+  }
+
+  .farewell {
+    text-align: center;
+    background: radial-gradient(ellipse at center, var(--accent-soft), transparent 70%);
+  }
+
+  .farewell h2 {
+    margin: 16px 0;
+    font-size: clamp(30px, 3.5vw, 40px);
+    line-height: 1.4;
+  }
+
+  .farewell .lead {
+    margin-inline: auto;
+  }
+
+  .farewell .button-row {
+    align-items: center;
+  }
+
+  .farewell .text-link {
+    padding-block: 12px;
+  }
+
+  :global(body:has(.home-page)) {
+    min-width: 0;
+  }
+
+  :global(main:has(> .home-page) + .footer) {
+    margin-top: 0;
   }
 
   @media (max-width: 800px) {
-    .product-shot { transform: none; }
+    .home-page {
+      --home-gap: 16px;
+      --home-card-padding: 20px;
+      --home-card-title: 18px;
+      --home-section-space: 48px;
+    }
+
+    .home-page .section + .section::before {
+      width: calc(100% - 44px);
+    }
+
+    .home-hero {
+      --cloud-bank-h: 120px;
+      padding-top: calc(var(--topbar-h) + 40px);
+      padding-bottom: var(--cloud-bank-h);
+    }
+
+    .hero-copy h1 {
+      font-size: var(--type-display);
+    }
+
+    .home-hero .lead {
+      font-size: var(--type-body);
+    }
+
+    .scene {
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr);
+      align-items: center;
+      gap: 16px;
+    }
+
+    .scene-art {
+      height: 88px;
+      margin: 0;
+    }
+
+    .luggage-map {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .luggage-threads {
+      display: none;
+    }
+
+    .story-window {
+      align-self: stretch;
+      width: 100%;
+    }
+
+    .window-bar {
+      padding: 8px 12px;
+    }
+
+    .window-content {
+      padding: 16px 12px;
+    }
+
+    .window-foot {
+      display: none;
+    }
+
+    .luggage-items {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding-top: 16px;
+    }
+
+    .luggage-items::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 32px;
+      left: 50%;
+      border-left: 1px solid var(--accent);
+      opacity: 0.5;
+    }
+
+    .luggage-item {
+      grid-column: auto;
+      grid-row: auto;
+      min-height: 64px;
+      padding: 8px;
+      gap: 8px;
+    }
+
+    .luggage-item::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 6px;
+      border-top: 1px solid var(--accent);
+      opacity: 0.5;
+    }
+
+    .luggage-item:nth-child(odd)::after {
+      right: -7px;
+    }
+
+    .luggage-item:nth-child(even)::after {
+      left: -7px;
+    }
+
+    .luggage-item svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .luggage-item strong {
+      font-size: var(--type-supporting);
+    }
+
+    .luggage-item span {
+      display: none;
+    }
+
+    .benefit-card {
+      grid-template-columns: 28px minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .benefit-card h3 {
+      min-height: 0;
+    }
+
+    .journey-grid,
+    .reading-guides {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .scene {
+      grid-template-columns: 64px minmax(0, 1fr);
+    }
+
+    .scene-art {
+      height: 72px;
+    }
+
+    .hero-copy .button-row {
+      gap: 12px;
+    }
   }
 </style>

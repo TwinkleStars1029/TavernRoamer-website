@@ -1,0 +1,111 @@
+/* Theme tokens. Light = 霧藍石板, dark = 雲上夜燈. Components only use these variables. */
+:root {
+  color-scheme: light;
+  --font-sans: 'Noto Sans TC', sans-serif;
+  --font-serif: 'Noto Serif TC', 'Noto Sans TC', serif;
+  --mono: 'DM Mono', ui-monospace, monospace;
+
+  /* Typography scale. Page styles should select a role instead of inventing sizes. */
+  --type-micro: 10px;
+  --type-caption: 12px;
+  --type-supporting: 14px;
+  --type-body: 16px;
+  --type-subheading: 18px;
+  --type-step-title: clamp(24px, 2.5vw, 28px);
+  --type-section-title: clamp(26px, 3.2vw, 36px);
+  --type-page-title: clamp(34px, 5vw, 54px);
+  --type-display: clamp(36px, 5vw, 60px);
+  --leading-caption: 1.6;
+  --leading-supporting: 1.7;
+  --leading-body: 1.8;
+  --leading-heading: 1.35;
+
+  --bg: #f3f1ec;
+  --surface: #fbfaf7;
+  --surface-2: #e8ecef;
+  --line: #d8dce1;
+  --text: #26303a;
+  --muted: #5d6874;
+  --primary: #3f5266;
+  --on-primary: #f7f4ee;
+  --accent: #8a5520;
+  --accent-soft: #f3e4cf;
+  --success: #3f6b3a;
+  --success-soft: #e3ecdf;
+  --warning: #a4482a;
+  --warning-soft: #f5e1d8;
+  --code-bg: #e9edf0;
+  --code-text: #34495e;
+  --shadow: rgba(38, 48, 58, 0.16);
+  --topbar-bg: rgba(243, 241, 236, 0.9);
+
+  /* Text and controls painted on top of the cloud sky (.sky-scope) */
+  --sky-text: #fbf8f2;
+  --sky-muted: #f0f2f5;
+  --sky-accent: #ffe7c7;
+  --sky-line: rgba(255, 255, 255, 0.28);
+  --sky-surface: rgba(30, 40, 52, 0.38);
+  --sky-surface-2: rgba(30, 40, 52, 0.5);
+  --sky-primary: #f7f4ee;
+  --sky-on-primary: #2c3540;
+
+  /* Cloud artwork (CloudSky.astro) */
+  --sky-1: #44556a;
+  --sky-2: #56677a;
+  --sky-3: #bdb3a2;
+  --glow: #f0b47a;
+  --glow-opacity: 0.45;
+  --star-opacity: 0;
+  --puff-1: #f1ece4;
+  --puff-2: #b5a593;
+  --bank-1: #f7f3ec;
+  --bank-2: #cbbdab;
+  --bank-3: #ecc79c;
+  --bank-4: #f3f1ec;
+
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #10151d;
+  --surface: #161d28;
+  --surface-2: #1c2431;
+  --line: #2a3445;
+  --text: #ece8e0;
+  --muted: #a3abb9;
+  --primary: #d9a35c;
+  --on-primary: #1a130a;
+  --accent: #e8b878;
+  --accent-soft: #3a2f22;
+  --success: #9fc889;
+  --success-soft: #1f2b22;
+  --warning: #e08a6a;
+  --warning-soft: #33231e;
+  --code-bg: #0c1016;
+  --code-text: #e3c99b;
+  --shadow: rgba(0, 0, 0, 0.45);
+  --topbar-bg: rgba(16, 21, 29, 0.88);
+
+  --sky-text: #ece8e0;
+  --sky-muted: #b3b9c6;
+  --sky-accent: #e8b878;
+  --sky-line: rgba(255, 255, 255, 0.14);
+  --sky-surface: rgba(22, 29, 40, 0.6);
+  --sky-surface-2: rgba(28, 36, 49, 0.7);
+  --sky-primary: #d9a35c;
+  --sky-on-primary: #1a130a;
+
+  --sky-1: #0d121a;
+  --sky-2: #172030;
+  --sky-3: #2a2a33;
+  --glow: #e09a4c;
+  --glow-opacity: 0.55;
+  --star-opacity: 0.6;
+  --puff-1: #2e3a52;
+  --puff-2: #6e5a44;
+  --bank-1: #3a4760;
+  --bank-2: #5b5550;
+  --bank-3: #b8803f;
+  --bank-4: #10151d;
+}

@@ -1,0 +1,98 @@
+---
+import '../styles/theme.css';
+import '../styles/global.css';
+import '../styles/intro.css';
+import CloudSky from '../components/CloudSky.astro';
+import SceneArt from '../components/SceneArt.astro';
+import { luggage } from '../data/luggage';
+
+const routeStops = [
+  { number: '01', tag: '目前的酒館', title: '收好這扇窗的行囊' },
+  { number: '02', tag: '自己的 Google Drive', title: '故事在雲端陪你一起旅行' },
+  { number: '03', tag: '另一座酒館', title: '展開行囊，接著聊下去' }
+];
+const driveIcon = 'M20 16.5A5 5 0 0 0 18 7a6 6 0 0 0-11.7 1A4.5 4.5 0 0 0 5 17h3m4 4V11m-4 4 4-4 4 4';
+---
+<!doctype html>
+<html lang="zh-Hant" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=540" />
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" />
+    <title>TavernRoamer 介紹動畫</title>
+  </head>
+  <body class="intro-body">
+    <div class="intro-stage" data-intro-stage>
+      <div class="intro-sky sky-scope">
+        <CloudSky variant="full" />
+        <div class="intro-dawn" data-intro="dawn"></div>
+
+        <div class="intro-hero">
+          <div class="eyebrow" data-intro="hero-eyebrow">TavernRoamer · 雲端漫遊</div>
+          <h1 data-intro="hero-title">讓故事乘著雲，<br /><em>在各處酒館之間漫遊。</em></h1>
+        </div>
+
+        <div class="intro-captions">
+          <h2 class="intro-caption" data-intro="cap-elsewhere">不管在本機或雲端，<br />到哪都想接著那句未完的話。</h2>
+          <h2 class="intro-caption" data-intro="cap-packing">卻總得逐一搬好<br />聊天紀錄與搭配的素材。</h2>
+          <h2 class="intro-caption" data-intro="cap-luggage">讓每一扇聊天視窗，<br />都打包一份自己的故事行囊。</h2>
+          <h2 class="intro-caption" data-intro="cap-route">在這座酒館收好，<br />到下一座酒館展開。</h2>
+          <h2 class="intro-caption" data-intro="cap-unpack">展開行囊，<br />延續你們故事內容</h2>
+          <h2 class="intro-caption" data-intro="cap-farewell">故事在雲端漫遊，<br />陪你一起旅行</h2>
+        </div>
+
+        <figure class="intro-scene" data-intro="scene-home">
+          <div class="intro-scene__art"><SceneArt variant="home" /></div>
+          <figcaption class="tag">在家 · 本機酒館</figcaption>
+        </figure>
+        <figure class="intro-scene" data-intro="scene-mobile">
+          <div class="intro-scene__art"><SceneArt variant="mobile" /></div>
+          <figcaption class="tag">出門 · 雲端酒館</figcaption>
+        </figure>
+
+        <div class="intro-window" data-intro="window">
+          <div class="intro-window__bar"><span class="intro-window__dots"><i></i><i></i><i></i></span><span>一段未完的故事</span></div>
+          <div class="intro-window__body"><h3>目前的聊天視窗</h3><p>這段故事與搭配的素材</p></div>
+        </div>
+        <div class="intro-window" data-intro="window-next">
+          <div class="intro-window__bar"><span class="intro-window__dots"><i></i><i></i><i></i></span><span>一段未完的故事</span></div>
+          <div class="intro-window__body"><h3>另一座酒館</h3><p>接著聊下去</p></div>
+        </div>
+
+        <ol class="intro-route" data-intro="route">
+          {routeStops.map((stop, index) => (
+            <li data-intro={`stop-${index}`}>
+              <span class="intro-route__number">{stop.number}<span class="intro-route__lit">{index === 1
+                ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d={driveIcon} /></svg>
+                : stop.number}</span></span>
+              <span class="intro-route__copy"><span class="tag">{stop.tag}</span><h3>{stop.title}</h3></span>
+            </li>
+          ))}
+        </ol>
+
+        <div class="intro-bundle" data-intro="bundle">
+          <div class="intro-bundle__glow" data-intro="bundle-glow"></div>
+          <svg class="intro-bundle__cloud" data-intro="bundle-cloud" viewBox="0 0 128 40"><path d="M14 36a12 12 0 0 1 4-23 18 18 0 0 1 33-7 16 16 0 0 1 28 4 14 14 0 0 1 24 8 11 11 0 0 1 11 18Z" /></svg>
+          <svg class="intro-bundle__case" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M4 7h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Zm5 0v13m6-13v13" /></svg>
+        </div>
+
+        <div class="intro-items" data-intro="items">
+          {luggage.map((entry, index) => (
+            <div class="intro-item" data-intro={`item-${index}`}>
+              <span class="intro-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d={entry.path} /></svg></span>
+              <span class="intro-item__name">{entry.name}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="brand intro-brand" data-intro="brand"><span class="brand-mark">✳</span><span>Tavern<span class="brand-soft">Roamer</span><small>STORY, WHEREVER YOU GO</small></span></div>
+      </div>
+    </div>
+    <script>
+      import '../lib/intro-boot';
+    </script>
+  </body>
+</html>
